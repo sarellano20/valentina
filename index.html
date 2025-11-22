@@ -10,15 +10,18 @@
   <style>
     body{
       margin:0;
-      height:100vh;
+      min-height:100vh;
       background:url('gato.jpg') center/cover no-repeat;
       font-family:'Montserrat', sans-serif;
       color:white;
       display:flex;
+      flex-direction:column;
       justify-content:center;
       align-items:center;
       text-align:center;
       overflow:hidden;
+      padding:20px; /* espacio para móviles */
+      box-sizing:border-box;
     }
 
     .overlay{
@@ -26,13 +29,25 @@
       inset:0;
       background:rgba(0,0,0,0.35);
       pointer-events:none;
+      z-index:1;
+    }
+
+    /* CONTENEDOR CENTRAL */
+    .content-wrapper{
+      position:relative;
+      z-index:5;
+      width:100%;
+      max-width:500px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      gap:18px;
     }
 
     .phrase{
-      position:relative;
-      z-index:5;
-      font-size:clamp(22px,4.5vw,42px);
-      width:90%;
+      font-size:clamp(22px,5vw,42px);
+      width:100%;
       min-height:120px;
       display:flex;
       justify-content:center;
@@ -45,25 +60,26 @@
     .fade-out{opacity:0; transform:scale(.95);}
 
     .controls{
-      position:relative;
-      z-index:6;
       display:flex;
-      gap:20px;
+      gap:15px;
       justify-content:center;
-      margin-top:10px;
+      align-items:center;
+      width:100%;
     }
 
     .btn{
       background:rgba(255,255,255,0.18);
       border:0;
       color:white;
-      padding:12px 22px;
+      padding:12px 20px;
       border-radius:10px;
       font-size:16px;
       font-weight:700;
       cursor:pointer;
       transition:transform .15s ease;
+      width:130px;
     }
+
     .btn:active{ transform:scale(.95); }
 
     /* Botón de música */
@@ -80,16 +96,16 @@
       border:2px solid rgba(255,255,255,0.5);
       z-index:20;
       backdrop-filter:blur(4px);
+      font-size:15px;
     }
 
-    /* Dedicatoria */
     .dedication{
-      margin-top:15px;
-      font-size:16px;
+      font-size:18px;
       font-family:'Dancing Script', cursive;
-      opacity:0.9;
-      position:relative;
+      opacity:0.95;
+      margin-top:5px;
       z-index:5;
+      text-shadow:0 0 4px rgba(0,0,0,0.6);
     }
 
     /* Hearts */
@@ -112,16 +128,19 @@
   <div class="overlay"></div>
   <div class="hearts" id="hearts"></div>
 
-  <div class="phrase fade-in" id="phrase">
-    <span id="phraseText">Cargando...</span>
-  </div>
+  <!-- CONTENEDOR CENTRAL -->
+  <div class="content-wrapper">
+    <div class="phrase fade-in" id="phrase">
+      <span id="phraseText">Cargando...</span>
+    </div>
 
-  <div class="controls">
-    <button class="btn" id="prev" style="display:none;">◀ Anterior</button>
-    <button class="btn" id="next">Siguiente ▶</button>
-  </div>
+    <div class="controls">
+      <button class="btn" id="prev" style="display:none;">◀ Anterior</button>
+      <button class="btn" id="next">Siguiente ▶</button>
+    </div>
 
-  <div class="dedication">Para Valentina, con mucho amor 💖</div>
+    <div class="dedication">Para Valentina, con mucho amor 💖</div>
+  </div>
 
 <script>
   const frases = [
@@ -160,10 +179,8 @@
 
       spawnHearts(6);
 
-      // Mostrar el botón Anterior solo desde la segunda frase
       prevBtn.style.display = (i === 0) ? "none" : "inline-block";
 
-      // Última frase → alerta
       if(i === frases.length-1){
         setTimeout(()=>{
           alert('¿Te quedarías conmigo en este mundo cruel para ser felices siempre? ❤️');
@@ -206,7 +223,6 @@
     showPhrase(index);
   };
 
-  // Botón para iniciar la música
   const playBtn = document.getElementById('playMusic');
   const bgm = document.getElementById('bgm');
 
