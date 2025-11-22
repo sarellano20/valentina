@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Para Valentina ❤️</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --accent: rgba(255,255,255,0.95);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+
+    body{
+      height:100vh;
+      background:url('gato.jpg') center/cover no-repeat;
+      font-family:'Montserrat', sans-serif;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      overflow:hidden;
+      color:var(--accent);
+    }
+
+    .overlay{
+      position:absolute;
+      inset:0;
+      background:rgba(0,0,0,0.35);
+      pointer-events:none;
+    }
+
+    .card{
+      position:relative;
+      z-index:5;
+      background:rgba(255,255,255,0.06);
+      backdrop-filter:blur(8px);
+      padding:30px;
+      border-radius:20px;
+      width:min(90%,800px);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+      box-shadow:0 8px 30px rgba(0,0,0,0.5);
+    }
+
+    .phrase{
+      font-size:clamp(22px,4vw,40px);
+      min-height:140px;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      padding:10px;
+      margin-bottom:20px;
+      transition:opacity .4s ease, transform .4s ease;
+    }
+
+    .fade-in{ opacity:1; transform:scale(1); }
+    .fade-out{ opacity:0; transform:scale(.95); }
+
+    .controls{
+      margin-top:10px;
+      display:flex;
+      justify-content:center;
+      gap:20px;
+      width:100%;
+    }
+
+    .btn{
+      background:rgba(255,255,255,0.15);
+      color:white;
+      border:0;
+      padding:12px 22px;
+      border-radius:10px;
+      font-weight:700;
+      cursor:pointer;
+      font-size:16px;
+      transition:transform .15s ease;
+    }
+
+    .btn:active{
+      transform:scale(.95);
+    }
+
+    .dedication{
+      margin-top:25px;
+      font-size:14px;
+      opacity:0.85;
+      font-family:'Dancing Script',cursive;
+    }
+
+    /* hearts container */
+    .hearts{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      z-index:2;
+    }
+    .heart{position:absolute;opacity:0}
+  </style>
+</head>
+
+<body>
+
+  <!-- Música automática -->
+  <audio src="iris.mp3" autoplay loop></audio>
+
+  <div class="overlay"></div>
+  <div class="hearts" id="hearts"></div>
+
+  <div class="card">
+    <div class="phrase fade-in" id="phrase">
+      <span id="phraseText">Cargando...</span>
+    </div>
+
+    <!-- BOTONES CENTRADOS PERFECTOS -->
+    <div class="controls">
+      <button class="btn" id="prev">◀ Anterior</button>
+      <button class="btn" id="next">Siguiente ▶</button>
+    </div>
+
+    <!-- Nueva posición del texto -->
+    <div class="dedication">Para Valentina, con mucho amor 💖</div>
+
+  </div>
+
+<script>
+  const frases = [
+    'Valentina<3',
+    'Mi amor precioso',
+    'Mi muñeca',
+    'Mi vida',
+    'Si supieras todo lo lindo que me haces sentir cada que estamos juntos, no terminaría nunca de poder explicártelo',
+    'Eres lo mas bonito que me ha pasado en la vida',
+    'En esta vida tan de mierda y con gente falsa llego a mi vida una estrellita a alumbrarme mis dias y a demostrarme lo bello que es el amor',
+    'Te quiero muchisimo <3',
+    'Me encantas mas que el chocolate',
+    'Le agradezco a Dios que te haya puesto en mi vida',
+    'Siempre voy a querer verte feliz, luchare para no dejarte de ver sonreir',
+    'Me tienes loquito',
+    'ME ENCANTASSSSSSSSSSSSSSS',
+    'Espero te guste esto es algo pequeño pero con mucho amor y lo podras ver cuando quieras',
+    'Una cosita mas...',
+    'Vemos los 7 pecados capitales?'
+  ];
+
+  let index = 0;
+
+  const phraseEl = document.getElementById('phrase');
+  const phraseText = document.getElementById('phraseText');
+  const heartsContainer = document.getElementById('hearts');
+
+  function showPhrase(i){
+    phraseEl.classList.remove('fade-in');
+    phraseEl.classList.add('fade-out');
+
+    setTimeout(()=>{
+      phraseText.textContent = frases[i];
+      phraseEl.classList.remove('fade-out');
+      phraseEl.classList.add('fade-in');
+
+      spawnHearts(6);
+
+      if(i === frases.length-1){
+        setTimeout(()=>{
+          const ok = confirm('Te quedarías conmigo en este mundo cruel para ser felices siempre?');
+          if(ok) alert('¡Gracias! Haré lo imposible para verte feliz ❤️');
+          else alert('Gracias por leer esto ❤️');
+        },800);
+      }
+
+    },350);
+  }
+
+  function spawnHearts(quantity){
+    for(let i=0;i<quantity;i++){
+      const h = document.createElement('div');
+      h.className='heart';
+      h.innerHTML='❤️';
+      h.style.left = Math.random()*100 + '%';
+      h.style.bottom = '-20px';
+      h.style.fontSize = (20 + Math.random()*30) + 'px';
+      heartsContainer.appendChild(h);
+
+      const anim = h.animate([
+        {transform:'translateY(0)', opacity:0},
+        {transform:`translateY(-200px)`, opacity:1},
+        {transform:`translateY(-350px)`, opacity:0}
+      ],{
+        duration: 2000 + Math.random()*1500,
+        easing:'ease-out'
+      });
+
+      anim.onfinish = ()=>h.remove();
+    }
+  }
+
+  document.getElementById('next').onclick = ()=>{
+    index = (index + 1) % frases.length;
+    showPhrase(index);
+  };
+
+  document.getElementById('prev').onclick = ()=>{
+    index = (index - 1 + frases.length) % frases.length;
+    showPhrase(index);
+  };
+
+  showPhrase(index);
+</script>
+
+</body>
+</html>
