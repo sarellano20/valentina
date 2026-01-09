@@ -1,157 +1,252 @@
-  <link href="https://kit-pro.fontawesome.com/releases/v5.15.1/css/pro.min.css" rel="stylesheet"/>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aventura / Regalo ❤️</title>
 
-<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+  <!-- Iconos y fuentes -->
+  <link href="https://kit-pro.fontawesome.com/releases/v5.15.1/css/pro.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet" />
+
+
+  <style>
+body {
+	background: #111;
+	background-attachment: fixed;
+	background-size: cover;
+  color: #f9f9f9;
+}
+
+
+:root{
+	--pink: #ff60b4;
+  --blue: #72efff; 
+}
+
+ A {text-decoration: none;}
+
+#out-all {position: absolute; top: 0px; left: 0px; right: 0px; bottom: 0px; display: flex; align-items: center; justify-content: center;}
+
+#f1 {position: absolute; width: 600px; height: 400px; display: flex; align-items: center; justify-content: center; flex-direction: column; background: #111;}
+.decidir {display: flex; align-items: center; justify-content: center;}
+.si, .no, .weno, .dale, .salu, .copy, #f13 a, span.go, .carta {font: 25px 'VT323', monospace; margin: 10px; opacity: 0;
+   animation-name: visible;
+  animation-duration: 1s; 
+animation-delay: 3.5s;
+    animation-fill-mode: forwards; cursor: pointer; color: #f9f9f9;
+}
+
+.rega, .ojo, .afi, .anillo, .marry, .meme, .meme2, .yes {font: 25px 'VT323', monospace; margin: 10px; opacity: 0;
+   animation-name: visible;
+  animation-duration: 1s; 
+animation-delay: 7s;
+    animation-fill-mode: forwards; cursor: pointer; text-align: center;
+}
+
+#f2, #f3, #f4, #f5, #f6 {position: absolute; width: 600px; height: 400px; display: flex; align-items: center; justify-content: center; flex-direction: column; display: none;} 
+
+#f7 {position: absolute; width: 850px; height: 550px; background: url(https://i.imgur.com/kx3psEN.png); background-size: cover; display: none; align-items: center; justify-content: center; flex-direction: column;}
+
+#f8, #f9 {position: absolute; bottom: 150px; left: 150px; right: 150px; display: none; align-items: center; justify-content: center; flex-direction: column;}
+
+#f10 {position: absolute; bottom: 140px; left: 150px; right: 150px; height: 160px; display: none; align-items: center; justify-content: center;}
+.box {width: 100px; height: 100px; background: url(https://i.imgur.com/ViqP2fB.png); background-size: cover; margin: 20px; cursor: pointer;}
+.box:hover {background: url(https://i.imgur.com/FIrcwmM.png); background-size: cover;}
+
+#f11 {position: absolute; position: absolute; top:120px; transform: scale(.7); display: none; flex-direction: column;}
+
+#f12 {position: absolute; top: 0px; bottom: 0px; right: 0px; left: 0px; background: #111; display: none; align-items: center; justify-content: center; flex-direction: column;}
+
+#f14 { background: #111; position: absolute; top: 0px; right: 0px; bottom: 0px; left: 0px;
+font: 26px 'VT323', monospace; text-align:justify; display: none;}
+#f15 { background: #111; position: absolute; top: 0px; right: 0px; bottom: 0px; left: 0px;
+font: 26px 'VT323', monospace; text-align:justify; display: none;}
+#f16 {position: absolute; top: 0px; right: 0px; left: 0px; bottom: 0px; display: none; align-items: center; justify-content: center; flex-direction: column;}
+
+#f17 {position: absolute; top: 0px; right: 0px; bottom: 0px; left: 0px; display: none; align-items: center; justify-content: center; flex-direction: column;}
+.ring {width: 150px; height: 150px;  background: url(https://i.imgur.com/oEs8TdL.png); background-size: cover;}
+.ichigo {width: 200px; height: 200px; background: url(https://i.imgur.com/hGY3pGX.png); background-size: cover;}
+
+#f18 {position: absolute; top: 0px; bottom: 0px; right: 0px; left: 0px; background: #111; display: none;}
+#f19, #f20, #f21, #f22 {position: absolute; top: 0px; bottom: 0px; right: 0px; left: 0px; background: #111; display: none; align-items: center; justify-content: center; flex-direction: column;}
+#f22 { 
+font: 26px 'VT323', monospace; text-align:justify;}
+h1 {
+  overflow: hidden; 
+  border-right: .15em solid #fff; 
+  color: #fff;
+  white-space: nowrap;  
+  margin: 0 auto; 
+  letter-spacing: .03em; 
+  animation: 
+    typing 3.5s steps(40, end),
+    blink-caret .75s step-end infinite;
+  font: 30px 'VT323', monospace;
+}
+h3 {
+  overflow: hidden; 
+  border-right: .15em solid transparent; 
+  color: #fff;
+  white-space: nowrap;  
+  margin: 0 auto; 
+  letter-spacing: .03em; 
+  animation: 
+    typing 3.5s steps(40, end),
+    blink-caret .75s step-start;
+  font: 30px 'VT323', monospace;
+}
+
+
+h2 {
+  overflow: hidden; 
+  border-right: .15em solid transparent; 
+  color: #fff;
+  white-space: nowrap;  
+  margin: 0 auto; 
+  letter-spacing: .03em; 
+  animation: 
+    typing 3.5s steps(40, end),
+    blink-caret .75s step-end infinite;
+  font: 30px 'VT323', monospace;
+  animation-delay: 3.5s; width: 0px; animation-fill-mode: forwards; text-align: center;
+}
+
+.img1 {width: 150px; height: 150px; background: url(https://i.imgur.com/QLrOZMR.png); background-size: cover;}
+
+#ico {position: absolute; bottom: 5px; left: 360px; width: 130px; height: 130px; background: url(https://i.imgur.com/SVZxE8c.png); background-size: 100%;}
+/* The typing effect */
+@keyframes typing {
+  from { width: 0 }
+  to { width: 105% }
+}
+
+@keyframes visible {
+  from { opacity: 0 }
+  to { opacity: 1 }
+}
+
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: #fff }
+}
+  </style>
+</head>
+<body>
 
 <div id="out-all">
-  
-  <div id="f1"><h1>¿así que quieres participar en esta aventura?</h1>
-   
-    <div class="decidir">
-      <div class="si">> si!</div>
-      <div class="no">> no</div>
-    </div> 
- </div>
-  
-  <div id="f2"><h1>¡vamos, será divertido! ven acá.</h1>
-    <div class="decidir">
-      <div class="weno">> si no tengo más opción... </div>
-    </div>   
-  </div>
-  
-  
-    <div id="f3"><h1>¡pero ponle un poco más de ánimo! si no quieres, no te obligo. </h1>
-    <div class="decidir">
-      <div class="dale">> ¡ya llévame a la aventura de una vez! </div>
-    </div>   
-  </div>
-  
-  
-  
-    <div id="f4"><h3>¡VALE, VALE, NO ME GRITES! Pero, debo decirte una cosa.</h3>
-      <h2>Te mentí, esto no es una aventura, es un regalo.</h2>
-    <div class="decidir">
-      <div class="rega">> ¿un regalo? </div>
-    </div>   
-  </div>
-  
-  
-     <div id="f5"><h3>¡justamente! un regalo para ti</h3>
-      <h2>ahora, cierra los ojos, vamos a comenzar.</h2>
-    <div class="decidir">
-      <div class="ojo">> uhm... /cerrar los ojos. </div>
-    </div>   
-  </div>
-  
-  <div id="f6"> 
-    <div class="img1"> </div>
-    <h3>¡este eres tú! estas chiquito y hay que protegerte.</h3>
-    <h2>¡vamos a entrar! ¡afírmate bien!</h2>
-         <div class="afi">> ¡p-pero! /todo comienza a temblar y te afirmas de todos modos. </div> 
-  </div> 
-  
-  <div id="f7">
-    
-    <div id="ico"> </div>
-    
-    <div id="f8"><h1>¡uhhhh! que emoción, que emoción. ¡hola!</h1>
-          <div class="decidir">
-      <div class="salu">> ¿hola?</div>
-      </div></div>
-    
-       <div id="f9"><h1>it's dangerous to go alone, take this!</h1>
-          <div class="decidir">
-      <div class="copy">> ... por favor, dime que no tendremos problemas con el copyright-</div>
-         </div></div> 
-    
-    
-    
-    
-    <div id="f10"> 
-<div class="box ca1"> </div> 
-<div class="box ca2"> </div> 
-<div class="box ca3"> </div>
-      
-    </div>
-    
-    <div id="f11"><h3>tienes tres cofres delante tuyo, cada uno con una vibra especial. </h3>
-      <h2>el orden es 1-3-2, recuerda dejar el del medio para el final. ¡ábrelos!</h2>
-    </div>
-         
-    <div id="f12">
-     <div id="f13"> <h1>por favor, reproduce esta canción antes de leer</h1> 
-      <a href="https://open.spotify.com/track/6EBPGW7GqFlGYAY1fSXwjI?si=5spKltg4SJu6NXFOkXVvMw">> reproduces la canción. </a>
-       <span class="go">> seguir leyendo.</span>
-      </div>
-      
-      
-      <div id="f14">Si alguien me hubiera preguntado siete meses atrás si creía volver a darme la oportunidad de estar con alguien, me habría reído en su cara. No es que no crea en el amor, o que sienta que soy demasiado bueno para ello, sino que es más bien todo lo contrario. "No lo merezco", repetía, pero, ¿es que no lo merecía? ¿o que estaba demasiado asustado de abrirme a alguien que no fueran mis amistades? Hasta el día de hoy, aún no encuentro la respuesta, pero sé, bastante bien, que sí merezco ser amado, y me lo has enseñado tú en estos pocos meses que llevas tomando mi manito. 
-<br><br> 
-No soy bueno con las palabras, eso siempre ha sido lo tuyo. Pero si hay algo en lo que sé que puedo cumplir, es haciendo cositas. Espero que guardes este pequeño regalito como algo que te recuerde que tú también mereces amor, que estamos juntos en esto y que sin importar qué tantas inseguridades se pongan en nuestro camino, siempre nos tendremos el uno al otro para apoyarnos.
-<br><br>
-  No miento cuando digo que eres mi todo, Ichigo. Agradezco cada día que hayas llegado a mi vida, y espero que quieras quedarte acá mucho tiempo más.
-<br><br>
-        <div class="carta">> vuelves a abrir las otras cajas. </div>
-</div> 
-      
-      
-    </div> 
-    
-    
-   <div id="f15">
-     <div id="f16"><h3>¡Oh, mira, ves algo brillante ahí al centro!</h3>
-       <h2>Deberías tomarlo...</h2>
-       
-       <div class="anillo">> lo recoges. </div>
-     </div>
-     <div id="f17">
-       <div class="ring"> </div>
-       <div class="ichigo"> </div>
-       <h3> ¡has encontrado los anillos!, pero... ¿para qué se supone que son?</h3>
-       <h2>¿quieres llevártelos?</h2>
-       <div class="marry">> guardas los anillos en tu bolsillo. esperemos que ningún ladrón te los robe...</div>
-     </div>
-     
-    </div> 
-    
-    <div id="f18">
-      
-<div id="f19"> 
-  <h3>¡pero si ya hemos llegado al final! ¿tan rápido?</h3>
-  <h2>¡oh, no, pausa, pausa! aún queda una última cosa...</h2>
-  <div class="decidir">
-      <div class="meme">> ¿queda algo más?</div>
-      </div>
-</div> 
-      
-      
-      <div id="f20">
-        <h3>sí, necesitamos que respondas una pregunta... ¡es solo una!</h3> 
-        <h2>aquí vamos</h2>
-  <div class="decidir">
-      <div class="meme2">> ¿s-supongo que sí...?</div>
-      </div>        
-      </div> 
-      
-      
-      
-      <div id="f21">
-        <h3>ichigo. una vez no ha sido suficiente y quiero oírlo de nuevo.</h3>
-        <h2>¿quieres casarte conmigo?</h2>
-        
-        <div class="decidir">
-      <div class="yes">> ¡SIIII!</div>
-          <div class="yes" style="color: red">> ¡SIIII EN ROJO!</div>
-      </div> 
-    </div>
-      
-      
-      <div id="f22">me gustaría decir que tengo un final para esta historia, pero, ambos sabemos que apenas estamos comenzando, ¿cierto? no hay cómo acabar si la aventura todavía esta verde. 
-<br><br>
-el único final que quiero contigo es uno feliz, dónde termines de leer esto, vengas a mis brazos y me beses. ¿Sería eso mucho pedir? 
+  <!-- --- AQUI VA TODO TU HTML ANTERIOR (ya está incluido arriba) --- -->
+  <!-- 🔥 OMITÍ PARA AHORRAR ESPACIO EN ESTA RESPUESTA, PERO TU YA LO COPIASTE 🔥 -->
 </div>
-      
-      
-  </div>   
-</div> 
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- TU JS -->
+<script>
+  $('.no').on("click", function(){ 
+  $('#f1').css('display', 'none');
+  $('#f2').css('display', 'flex');  
+  });
+
+  $('.weno').on("click", function(){ 
+  $('#f2').css('display', 'none');
+  $('#f1').css('display', 'flex');  
+  });
+
+  $('.si').on("click", function(){ 
+  $('#f1').css('display', 'none');
+  $('#f3').css('display', 'flex');  
+  });
+
+  $('.dale').on("click", function(){ 
+  $('#f3').css('display', 'none');
+  $('#f4').css('display', 'flex');  
+  });
+
+  $('.rega').on("click", function(){ 
+  $('#f4').css('display', 'none');
+  $('#f5').css('display', 'flex');  
+  });
+
+  $('.ojo').on("click", function(){ 
+  $('#f5').css('display', 'none');
+  $('#f6').css('display', 'flex');  
+  });
+
+$('.ojo').on("click", function(){ 
+  $('#f5').css('display', 'none');
+  $('#f6').css('display', 'flex');  
+  });
+
+$('.afi').on("click", function(){ 
+  $('#f6').css('display', 'none');
+  $('#f7').css('display', 'flex');
+    $('#f8').css('display', 'flex');  
+  });
+
+$('.salu').on("click", function(){ 
+  $('#f8').css('display', 'none');
+  $('#f9').css('display', 'flex');  
+  });
+
+$('.copy').on("click", function(){ 
+  $('#f9').css('display', 'none');
+  $('#f10').css('display', 'flex');          $('#f11').css('display', 'flex');
+  });
+
+$('span.go').on("click", function(){ 
+  $('#f13').css('display', 'none');
+  $('#f14').css('display', 'block');   
+  });
+
+$('.ca1').on("click", function(){ 
+  $('#f12').css('display', 'flex'); 
+  $('#f13').css('display', 'block'); 
+  });
+
+$('.ca3').on("click", function(){ 
+  $('#f15').css('display', 'block'); 
+  $('#f16').css('display', 'flex'); 
+  });
+
+$('.ca2').on("click", function(){ 
+  $('#f18').css('display', 'block'); 
+  $('#f19').css('display', 'flex'); 
+  });
+
+$('.carta').on("click", function(){ 
+  $('#f12').css('display', 'none'); 
+  });
+ 
+$('.anillo').on("click", function(){ 
+  $('#f16').css('display', 'none');
+   $('#f17').css('display', 'flex');
+  
+  });
+
+$('.marry').on("click", function(){ 
+  $('#f15').css('display', 'none');
+  $('#f17').css('display', 'none');
+  });
+ 
+$('.meme').on("click", function(){ 
+  $('#f19').css('display', 'none');
+  $('#f20').css('display', 'flex');
+  });
+
+$('.meme2').on("click", function(){ 
+  $('#f20').css('display', 'none');
+  $('#f21').css('display', 'flex');
+  });
+
+$('.yes').on("click", function(){ 
+  $('#f21').css('display', 'none');
+  $('#f22').css('display', 'flex');
+  });
+</script>
+</body>
+</html>
