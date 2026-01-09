@@ -1,238 +1,157 @@
-<!doctype html>
-<html lang="es">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Para Valentina ❤️</title>
+  <link href="https://kit-pro.fontawesome.com/releases/v5.15.1/css/pro.min.css" rel="stylesheet"/>
 
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
 
-  <style>
-    body{
-      margin:0;
-      min-height:100vh;
-      background:url('gato.jpg') center/cover no-repeat;
-      font-family:'Montserrat', sans-serif;
-      color:white;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      align-items:center;
-      text-align:center;
-      overflow:hidden;
-      padding:20px; /* espacio para móviles */
-      box-sizing:border-box;
-    }
-
-    .overlay{
-      position:absolute;
-      inset:0;
-      background:rgba(0,0,0,0.35);
-      pointer-events:none;
-      z-index:1;
-    }
-
-    /* CONTENEDOR CENTRAL */
-    .content-wrapper{
-      position:relative;
-      z-index:5;
-      width:100%;
-      max-width:500px;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      align-items:center;
-      gap:18px;
-    }
-
-    .phrase{
-      font-size:clamp(22px,5vw,42px);
-      width:100%;
-      min-height:120px;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      padding:15px;
-      transition:opacity .4s ease, transform .4s ease;
-    }
-
-    .fade-in{opacity:1; transform:scale(1);}
-    .fade-out{opacity:0; transform:scale(.95);}
-
-    .controls{
-      display:flex;
-      gap:15px;
-      justify-content:center;
-      align-items:center;
-      width:100%;
-    }
-
-    .btn{
-      background:rgba(255,255,255,0.18);
-      border:0;
-      color:white;
-      padding:12px 20px;
-      border-radius:10px;
-      font-size:16px;
-      font-weight:700;
-      cursor:pointer;
-      transition:transform .15s ease;
-      width:130px;
-    }
-
-    .btn:active{ transform:scale(.95); }
-
-    /* Botón de música */
-    #playMusic{
-      position:fixed;
-      bottom:20px;
-      right:20px;
-      background:rgba(0,0,0,0.5);
-      padding:14px 20px;
-      border-radius:12px;
-      color:white;
-      font-weight:700;
-      cursor:pointer;
-      border:2px solid rgba(255,255,255,0.5);
-      z-index:20;
-      backdrop-filter:blur(4px);
-      font-size:15px;
-    }
-
-    .dedication{
-      font-size:18px;
-      font-family:'Dancing Script', cursive;
-      opacity:0.95;
-      margin-top:5px;
-      z-index:5;
-      text-shadow:0 0 4px rgba(0,0,0,0.6);
-    }
-
-    /* Hearts */
-    .hearts{
-      position:absolute;
-      inset:0;
-      z-index:2;
-      pointer-events:none;
-    }
-    .heart{position:absolute;opacity:0}
-  </style>
-</head>
-
-<body>
-
-  <audio id="bgm" src="iris.mp3" loop></audio>
-
-  <div id="playMusic">🎵 Reproducir música</div>
-
-  <div class="overlay"></div>
-  <div class="hearts" id="hearts"></div>
-
-  <!-- CONTENEDOR CENTRAL -->
-  <div class="content-wrapper">
-    <div class="phrase fade-in" id="phrase">
-      <span id="phraseText">Cargando...</span>
-    </div>
-
-    <div class="controls">
-      <button class="btn" id="prev" style="display:none;">◀ Anterior</button>
-      <button class="btn" id="next">Siguiente ▶</button>
-    </div>
-
-    <div class="dedication">Para Valentina, con mucho amor 💖</div>
+<div id="out-all">
+  
+  <div id="f1"><h1>¿así que quieres participar en esta aventura?</h1>
+   
+    <div class="decidir">
+      <div class="si">> si!</div>
+      <div class="no">> no</div>
+    </div> 
+ </div>
+  
+  <div id="f2"><h1>¡vamos, será divertido! ven acá.</h1>
+    <div class="decidir">
+      <div class="weno">> si no tengo más opción... </div>
+    </div>   
   </div>
-
-<script>
-  const frases = [
-    'Valentina<3',
-    'Mi amor precioso',
-    'Mi muñeca',
-    'Mi vida',
-    'Si supieras todo lo lindo que me haces sentir cada que estamos juntos, no terminaría nunca de poder explicártelo',
-    'Eres lo mas bonito que me ha pasado en la vida',
-    'En esta vida tan de mierda y con gente falsa llego a mi vida una estrellita a alumbrarme mis dias y a demostrarme lo bello que es el amor',
-    'Te quiero muchisimo <3',
-    'Me encantas mas que el chocolate',
-    'Le agradezco a Dios que te haya puesto en mi vida',
-    'Siempre voy a querer verte feliz, luchare para no dejarte de ver sonreir',
-    'Me tienes loquito',
-    'ME ENCANTASSSSSSSSSSSSSSS',
-    'Espero te guste esto es algo pequeño pero con mucho amor y lo podras ver cuando quieras',
-    'Una cosita mas...'
-  ];
-
-  let index = 0;
-
-  const phraseEl = document.getElementById('phrase');
-  const phraseText = document.getElementById('phraseText');
-  const heartsContainer = document.getElementById('hearts');
-  const prevBtn = document.getElementById('prev');
-
-  function showPhrase(i){
-    phraseEl.classList.remove('fade-in');
-    phraseEl.classList.add('fade-out');
-
-    setTimeout(()=>{
-      phraseText.textContent = frases[i];
-      phraseEl.classList.remove('fade-out');
-      phraseEl.classList.add('fade-in');
-
-      spawnHearts(6);
-
-      prevBtn.style.display = (i === 0) ? "none" : "inline-block";
-
-      if(i === frases.length-1){
-        setTimeout(()=>{
-          alert('¿Te quedarías conmigo en este mundo cruel para ser felices siempre? ❤️');
-        },900);
-      }
-
-    },350);
-  }
-
-  function spawnHearts(quantity){
-    for(let i=0;i<quantity;i++){
-      const h = document.createElement('div');
-      h.className = 'heart';
-      h.innerHTML = '❤️';
-      h.style.left = Math.random()*100 + '%';
-      h.style.bottom = '-20px';
-      h.style.fontSize = (20 + Math.random()*30) + 'px';
-      heartsContainer.appendChild(h);
-
-      const anim = h.animate([
-        {transform:'translateY(0)', opacity:0},
-        {transform:'translateY(-200px)', opacity:1},
-        {transform:'translateY(-350px)', opacity:0}
-      ],{
-        duration:2000 + Math.random()*1500,
-        easing:'ease-out'
-      });
-
-      anim.onfinish = ()=>h.remove();
-    }
-  }
-
-  document.getElementById('next').onclick = ()=>{
-    index = (index + 1) % frases.length;
-    showPhrase(index);
-  };
-
-  document.getElementById('prev').onclick = ()=>{
-    index = (index - 1 + frases.length) % frases.length;
-    showPhrase(index);
-  };
-
-  const playBtn = document.getElementById('playMusic');
-  const bgm = document.getElementById('bgm');
-
-  playBtn.onclick = ()=>{
-    bgm.play();
-    playBtn.style.display = 'none';
-  };
-
-  showPhrase(index);
-</script>
-
-</body>
-</html>
+  
+  
+    <div id="f3"><h1>¡pero ponle un poco más de ánimo! si no quieres, no te obligo. </h1>
+    <div class="decidir">
+      <div class="dale">> ¡ya llévame a la aventura de una vez! </div>
+    </div>   
+  </div>
+  
+  
+  
+    <div id="f4"><h3>¡VALE, VALE, NO ME GRITES! Pero, debo decirte una cosa.</h3>
+      <h2>Te mentí, esto no es una aventura, es un regalo.</h2>
+    <div class="decidir">
+      <div class="rega">> ¿un regalo? </div>
+    </div>   
+  </div>
+  
+  
+     <div id="f5"><h3>¡justamente! un regalo para ti</h3>
+      <h2>ahora, cierra los ojos, vamos a comenzar.</h2>
+    <div class="decidir">
+      <div class="ojo">> uhm... /cerrar los ojos. </div>
+    </div>   
+  </div>
+  
+  <div id="f6"> 
+    <div class="img1"> </div>
+    <h3>¡este eres tú! estas chiquito y hay que protegerte.</h3>
+    <h2>¡vamos a entrar! ¡afírmate bien!</h2>
+         <div class="afi">> ¡p-pero! /todo comienza a temblar y te afirmas de todos modos. </div> 
+  </div> 
+  
+  <div id="f7">
+    
+    <div id="ico"> </div>
+    
+    <div id="f8"><h1>¡uhhhh! que emoción, que emoción. ¡hola!</h1>
+          <div class="decidir">
+      <div class="salu">> ¿hola?</div>
+      </div></div>
+    
+       <div id="f9"><h1>it's dangerous to go alone, take this!</h1>
+          <div class="decidir">
+      <div class="copy">> ... por favor, dime que no tendremos problemas con el copyright-</div>
+         </div></div> 
+    
+    
+    
+    
+    <div id="f10"> 
+<div class="box ca1"> </div> 
+<div class="box ca2"> </div> 
+<div class="box ca3"> </div>
+      
+    </div>
+    
+    <div id="f11"><h3>tienes tres cofres delante tuyo, cada uno con una vibra especial. </h3>
+      <h2>el orden es 1-3-2, recuerda dejar el del medio para el final. ¡ábrelos!</h2>
+    </div>
+         
+    <div id="f12">
+     <div id="f13"> <h1>por favor, reproduce esta canción antes de leer</h1> 
+      <a href="https://open.spotify.com/track/6EBPGW7GqFlGYAY1fSXwjI?si=5spKltg4SJu6NXFOkXVvMw">> reproduces la canción. </a>
+       <span class="go">> seguir leyendo.</span>
+      </div>
+      
+      
+      <div id="f14">Si alguien me hubiera preguntado siete meses atrás si creía volver a darme la oportunidad de estar con alguien, me habría reído en su cara. No es que no crea en el amor, o que sienta que soy demasiado bueno para ello, sino que es más bien todo lo contrario. "No lo merezco", repetía, pero, ¿es que no lo merecía? ¿o que estaba demasiado asustado de abrirme a alguien que no fueran mis amistades? Hasta el día de hoy, aún no encuentro la respuesta, pero sé, bastante bien, que sí merezco ser amado, y me lo has enseñado tú en estos pocos meses que llevas tomando mi manito. 
+<br><br> 
+No soy bueno con las palabras, eso siempre ha sido lo tuyo. Pero si hay algo en lo que sé que puedo cumplir, es haciendo cositas. Espero que guardes este pequeño regalito como algo que te recuerde que tú también mereces amor, que estamos juntos en esto y que sin importar qué tantas inseguridades se pongan en nuestro camino, siempre nos tendremos el uno al otro para apoyarnos.
+<br><br>
+  No miento cuando digo que eres mi todo, Ichigo. Agradezco cada día que hayas llegado a mi vida, y espero que quieras quedarte acá mucho tiempo más.
+<br><br>
+        <div class="carta">> vuelves a abrir las otras cajas. </div>
+</div> 
+      
+      
+    </div> 
+    
+    
+   <div id="f15">
+     <div id="f16"><h3>¡Oh, mira, ves algo brillante ahí al centro!</h3>
+       <h2>Deberías tomarlo...</h2>
+       
+       <div class="anillo">> lo recoges. </div>
+     </div>
+     <div id="f17">
+       <div class="ring"> </div>
+       <div class="ichigo"> </div>
+       <h3> ¡has encontrado los anillos!, pero... ¿para qué se supone que son?</h3>
+       <h2>¿quieres llevártelos?</h2>
+       <div class="marry">> guardas los anillos en tu bolsillo. esperemos que ningún ladrón te los robe...</div>
+     </div>
+     
+    </div> 
+    
+    <div id="f18">
+      
+<div id="f19"> 
+  <h3>¡pero si ya hemos llegado al final! ¿tan rápido?</h3>
+  <h2>¡oh, no, pausa, pausa! aún queda una última cosa...</h2>
+  <div class="decidir">
+      <div class="meme">> ¿queda algo más?</div>
+      </div>
+</div> 
+      
+      
+      <div id="f20">
+        <h3>sí, necesitamos que respondas una pregunta... ¡es solo una!</h3> 
+        <h2>aquí vamos</h2>
+  <div class="decidir">
+      <div class="meme2">> ¿s-supongo que sí...?</div>
+      </div>        
+      </div> 
+      
+      
+      
+      <div id="f21">
+        <h3>ichigo. una vez no ha sido suficiente y quiero oírlo de nuevo.</h3>
+        <h2>¿quieres casarte conmigo?</h2>
+        
+        <div class="decidir">
+      <div class="yes">> ¡SIIII!</div>
+          <div class="yes" style="color: red">> ¡SIIII EN ROJO!</div>
+      </div> 
+    </div>
+      
+      
+      <div id="f22">me gustaría decir que tengo un final para esta historia, pero, ambos sabemos que apenas estamos comenzando, ¿cierto? no hay cómo acabar si la aventura todavía esta verde. 
+<br><br>
+el único final que quiero contigo es uno feliz, dónde termines de leer esto, vengas a mis brazos y me beses. ¿Sería eso mucho pedir? 
+</div>
+      
+      
+  </div>   
+</div> 
