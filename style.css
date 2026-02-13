@@ -1,37 +1,46 @@
+/* =========================
+   BASE
+========================= */
 body {
     margin: 0;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
+
     background-image: url("heart-bg.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+
     font-family: "Pixelify Sans", sans-serif;
     overflow: hidden;
 }
 
-/* Envelope Screen */
+/* =========================
+   ENVELOPE
+========================= */
 #envelope-container {
     text-align: center;
     cursor: pointer;
 }
 
 @keyframes pulse {
-    0% { transform: scale(1); }
+    0% { transform:scale(1); }
     50% { transform: scale(1.1); }
     100% { transform: scale(1); }
 }
 
-#envelope {
+#envelope{
     width: 200px;
     animation: pulse 1.5s infinite;
     cursor: pointer;
 }
 
-/* Letter Screen */
-#letter-container {
+/* =========================
+   LETTER SCREEN
+========================= */
+#letter-container{
     display: none;
     position: fixed;
     inset: 0;
@@ -41,36 +50,35 @@ body {
     box-sizing: border-box;
 }
 
-.letter-window {
+/* Ventana: mantenemos el marco y hacemos el layout estable */
+.letter-window{
     width: 90vw;
     max-width: 800px;
     aspect-ratio: 3/2;
 
-    /* Tu layout original */
-    padding: 20px 20px 0 20px;
-    padding-top: 180px;
+    /* IMPORTANTE: en vez de un padding-top fijo gigante,
+       usamos clamp para que NO empuje fuera los botones */
+    padding: clamp(95px, 14vw, 160px) 20px clamp(18px, 3vw, 28px) 20px;
 
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: flex-start;  /* 👈 así el contenido cae “arriba->abajo” como en tu imagen */
     text-align: center;
 
     background-image: url("window.png");
-    background-size: contain;
+    background-size: 100% 100%;  /* 👈 el marco llena el contenedor (más consistente en móvil) */
     background-repeat: no-repeat;
     background-position: center;
 
     border-radius: 12px;
-    gap: 1px;
+    gap: 8px;
 
-    /* Animación */
     transform: scale(1.2);
     opacity: 0;
     transition: transform 0.6s ease, opacity 0.6s ease;
 
-    /* CLAVE: evita que el corazón se salga del marco */
-    overflow: hidden;
+    overflow: hidden;            /* no se sale del marco */
     box-sizing: border-box;
 }
 
@@ -82,19 +90,23 @@ body {
 h1 {
     font-size: 30px;
     margin: 0;
+    line-height: 1.15;
 }
 
 p {
     font-size: 40px;
+    margin: 0;
 }
 
-/* Cat */
+/* =========================
+   CAT (HEART GIF)
+========================= */
 .cat {
     width: 250px;
     max-width: 100%;
     height: auto;
     object-fit: contain;
-    margin: 10px 0;
+    margin: 6px 0 4px;
     transition: width 0.4s ease;
 }
 
@@ -102,17 +114,28 @@ p {
     width: 180px;
 }
 
-/* Buttons */
+/* =========================
+   BUTTONS
+========================= */
 .buttons {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 30px;
     position: relative;
-    flex-wrap: wrap;
+    margin-top: 6px; /* 👈 asegura que queden pegaditos debajo del gato */
 }
 
-.no-wrapper {
+.no-wrapper{
     position: relative;
+}
+
+/* Asegura que siempre se vean encima del fondo */
+.btn,
+.yes-btn,
+.no-btn {
+    position: relative;
+    z-index: 5;
 }
 
 .btn {
@@ -122,72 +145,70 @@ p {
     user-select: none;
 }
 
-.yes-btn,
-.no-btn {
-    width: 120px;
-    height: auto;
-    display: inline-block;
-}
-
 .yes-btn {
-    position: relative;
-    z-index: 2;
     transform-origin: center center;
     transition: transform 0.3s ease;
 }
 
 .no-btn {
-    z-index: 1;
-    position: relative;
     transition: transform 0.15s ease;
     cursor: default;
 }
 
-.final-text {
+/* =========================
+   FINAL TEXT
+========================= */
+.final-text{
     font-size: 22px;
     line-height: 1.4;
     text-align: center;
     display: inline-block;
     padding: 10px 20px;
-    background-color: rgba(255, 240, 240, 0.5);
+    background-color: rgba(255,240,240,0.5);
     border-radius: 12px;
+    margin-top: 10px;
 }
 
-/* ✅ MOBILE: Ajustes para que el corazón (cat_heart.gif) no se salga del marco */
-@media (max-width: 480px) {
-    .letter-window {
+/* =========================
+   MOBILE FIX
+   (que NO se corte y que los botones queden visibles)
+========================= */
+@media (max-width: 480px){
+    .letter-window{
         width: 94vw;
         max-width: 94vw;
 
-        /* Reduce el espacio superior para que todo quepa */
-        padding-top: 110px; /* antes 180px */
+        /* más compacto arriba y abajo en pantallas pequeñas */
+        padding: clamp(85px, 18vw, 125px) 14px 18px 14px;
 
-        /* Limita altura total para pantallas bajitas */
         max-height: 92vh;
+        gap: 6px;
     }
 
-    h1 {
-        font-size: 22px;
-        line-height: 1.2;
-    }
-
-    p {
+    h1{
         font-size: 22px;
     }
 
-    .cat {
-        width: 55vw;
-        max-width: 220px;
-        margin: 8px 0 10px;
+    p{
+        font-size: 22px;
     }
 
-    .letter-window.final .cat {
-        width: 45vw;
-        max-width: 180px;
+    .cat{
+        width: min(58vw, 220px);
+        margin: 4px 0 2px;
     }
 
-    .btn {
-        width: 38vw;
-        max-width: 140px;
+    .letter-window.final .cat{
+        width: min(48vw, 180px);
+    }
+
+    .buttons{
+        gap: 14px;
+        margin-top: 4px;
+        flex-wrap: wrap;
+    }
+
+    .btn{
+        width: min(40vw, 140px);
     }
 }
