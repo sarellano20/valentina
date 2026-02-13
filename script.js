@@ -1,102 +1,72 @@
+// Elements
+const envelope = document.getElementById("envelope-container");
+const letter = document.getElementById("letter-container");
+const noBtn = document.querySelector(".no-btn");
+const yesBtn = document.querySelector(".btn[alt='Yes']");
 
-  $('.no').on("click", function(){ 
-  $('#f1').css('display', 'none');
-  $('#f2').css('display', 'flex');  
-  });
+const title = document.getElementById("letter-title");
+const catImg = document.getElementById("letter-cat");
+const buttons = document.getElementById("letter-buttons");
+const finalText = document.getElementById("final-text");
 
-  $('.weno').on("click", function(){ 
-  $('#f2').css('display', 'none');
-  $('#f1').css('display', 'flex');  
-  });
+// Click Envelope
 
-  $('.si').on("click", function(){ 
-  $('#f1').css('display', 'none');
-  $('#f3').css('display', 'flex');  
-  });
+envelope.addEventListener("click", () => {
+    envelope.style.display = "none";
+    letter.style.display = "flex";
 
-  $('.dale').on("click", function(){ 
-  $('#f3').css('display', 'none');
-  $('#f4').css('display', 'flex');  
-  });
+    setTimeout( () => {
+        document.querySelector(".letter-window").classList.add("open");
+    },50);
+});
 
-  $('.rega').on("click", function(){ 
-  $('#f4').css('display', 'none');
-  $('#f5').css('display', 'flex');  
-  });
+// Logic to move the NO btn
 
-  $('.ojo').on("click", function(){ 
-  $('#f5').css('display', 'none');
-  $('#f6').css('display', 'flex');  
-  });
+noBtn.addEventListener("mouseover", () => {
+    const min = 200;
+    const max = 200;
 
-$('.ojo').on("click", function(){ 
-  $('#f5').css('display', 'none');
-  $('#f6').css('display', 'flex');  
-  });
+    const distance = Math.random() * (max - min) + min;
+    const angle = Math.random() * Math.PI * 2;
 
-$('.afi').on("click", function(){ 
-  $('#f6').css('display', 'none');
-  $('#f7').css('display', 'flex');
-    $('#f8').css('display', 'flex');  
-  });
+    const moveX = Math.cos(angle) * distance;
+    const moveY = Math.sin(angle) * distance;
 
-$('.salu').on("click", function(){ 
-  $('#f8').css('display', 'none');
-  $('#f9').css('display', 'flex');  
-  });
+    noBtn.style.transition = "transform 0.3s ease";
+    noBtn.style.transform = `translate(${moveX}px, ${moveY}px)`;
+});
 
-$('.copy').on("click", function(){ 
-  $('#f9').css('display', 'none');
-  $('#f10').css('display', 'flex');          $('#f11').css('display', 'flex');
-  });
+// Logic to make YES btn to grow
 
-$('span.go').on("click", function(){ 
-  $('#f13').css('display', 'none');
-  $('#f14').css('display', 'block');   
-  });
+// let yesScale = 1;
 
-$('.ca1').on("click", function(){ 
-  $('#f12').css('display', 'flex'); 
-  $('#f13').css('display', 'block'); 
-  });
+// yesBtn.style.position = "relative"
+// yesBtn.style.transformOrigin = "center center";
+// yesBtn.style.transition = "transform 0.3s ease";
 
-$('.ca3').on("click", function(){ 
-  $('#f15').css('display', 'block'); 
-  $('#f16').css('display', 'flex'); 
-  });
+// noBtn.addEventListener("click", () => {
+//     yesScale += 2;
 
-$('.ca2').on("click", function(){ 
-  $('#f18').css('display', 'block'); 
-  $('#f19').css('display', 'flex'); 
-  });
+//     if (yesBtn.style.position !== "fixed") {
+//         yesBtn.style.position = "fixed";
+//         yesBtn.style.top = "50%";
+//         yesBtn.style.left = "50%";
+//         yesBtn.style.transform = `translate(-50%, -50%) scale(${yesScale})`;
+//     }else{
+//         yesBtn.style.transform = `translate(-50%, -50%) scale(${yesScale})`;
+//     }
+// });
 
-$('.carta').on("click", function(){ 
-  $('#f12').css('display', 'none'); 
-  });
- 
-$('.anillo').on("click", function(){ 
-  $('#f16').css('display', 'none');
-   $('#f17').css('display', 'flex');
-  
-  });
+// YES is clicked
 
-$('.marry').on("click", function(){ 
-  $('#f15').css('display', 'none');
-  $('#f17').css('display', 'none');
-  });
- 
-$('.meme').on("click", function(){ 
-  $('#f19').css('display', 'none');
-  $('#f20').css('display', 'flex');
-  });
+yesBtn.addEventListener("click", () => {
+    title.textContent = "Yippeeee!";
 
-$('.meme2').on("click", function(){ 
-  $('#f20').css('display', 'none');
-  $('#f21').css('display', 'flex');
-  });
+    catImg.src = "cat_dance.gif";
 
-$('.yes').on("click", function(){ 
-  $('#f21').css('display', 'none');
-  $('#f22').css('display', 'flex');
-  });
- 
+    document.querySelector(".letter-window").classList.add("final");
+
+    buttons.style.display = "none";
+
+    finalText.style.display = "block";
+});
