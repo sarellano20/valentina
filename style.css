@@ -5,62 +5,73 @@ body {
     justify-content: center;
     align-items: center;
     background-image: url("heart-bg.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     font-family: "Pixelify Sans", sans-serif;
+    overflow: hidden;
 }
 
 /* Envelope Screen */
 #envelope-container {
     text-align: center;
-    cursor:pointer;
+    cursor: pointer;
 }
 
 @keyframes pulse {
-    0% {
-        transform:scale(1);
-    }
-    50% {
-        transform: scale(1.1);
-    }
-    100% {
-        transform: scale(1);
-    }
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
 }
 
-#envelope{
+#envelope {
     width: 200px;
     animation: pulse 1.5s infinite;
     cursor: pointer;
 }
 
-#letter-container{
+/* Letter Screen */
+#letter-container {
     display: none;
-    position:fixed;
+    position: fixed;
     inset: 0;
     justify-content: center;
     align-items: center;
+    padding: 16px;
+    box-sizing: border-box;
 }
 
-.letter-window{
+.letter-window {
     width: 90vw;
     max-width: 800px;
     aspect-ratio: 3/2;
+
+    /* Tu layout original */
     padding: 20px 20px 0 20px;
+    padding-top: 180px;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
+
     background-image: url("window.png");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+
     border-radius: 12px;
     gap: 1px;
-    padding-top: 180px;
 
+    /* Animación */
     transform: scale(1.2);
     opacity: 0;
     transition: transform 0.6s ease, opacity 0.6s ease;
+
+    /* CLAVE: evita que el corazón se salga del marco */
+    overflow: hidden;
+    box-sizing: border-box;
 }
 
 .letter-window.open {
@@ -70,7 +81,7 @@ body {
 
 h1 {
     font-size: 30px;
-    margin:0;
+    margin: 0;
 }
 
 p {
@@ -78,9 +89,11 @@ p {
 }
 
 /* Cat */
-
 .cat {
     width: 250px;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
     margin: 10px 0;
     transition: width 0.4s ease;
 }
@@ -89,29 +102,31 @@ p {
     width: 180px;
 }
 
-/* buttons */
+/* Buttons */
 .buttons {
     display: flex;
     justify-content: center;
     gap: 30px;
     position: relative;
+    flex-wrap: wrap;
 }
 
-.no-wrapper{
-    position:relative;
+.no-wrapper {
+    position: relative;
 }
 
 .btn {
     width: 120px;
+    height: auto;
     cursor: pointer;
     user-select: none;
 }
 
 .yes-btn,
 .no-btn {
-width: 120px;
-height: auto;
-display: inline-block;
+    width: 120px;
+    height: auto;
+    display: inline-block;
 }
 
 .yes-btn {
@@ -128,12 +143,51 @@ display: inline-block;
     cursor: default;
 }
 
-.final-text{
+.final-text {
     font-size: 22px;
     line-height: 1.4;
     text-align: center;
     display: inline-block;
     padding: 10px 20px;
-    background-color: rgba(255,240,240,0.5);
+    background-color: rgba(255, 240, 240, 0.5);
     border-radius: 12px;
+}
+
+/* ✅ MOBILE: Ajustes para que el corazón (cat_heart.gif) no se salga del marco */
+@media (max-width: 480px) {
+    .letter-window {
+        width: 94vw;
+        max-width: 94vw;
+
+        /* Reduce el espacio superior para que todo quepa */
+        padding-top: 110px; /* antes 180px */
+
+        /* Limita altura total para pantallas bajitas */
+        max-height: 92vh;
+    }
+
+    h1 {
+        font-size: 22px;
+        line-height: 1.2;
+    }
+
+    p {
+        font-size: 22px;
+    }
+
+    .cat {
+        width: 55vw;
+        max-width: 220px;
+        margin: 8px 0 10px;
+    }
+
+    .letter-window.final .cat {
+        width: 45vw;
+        max-width: 180px;
+    }
+
+    .btn {
+        width: 38vw;
+        max-width: 140px;
+    }
 }
