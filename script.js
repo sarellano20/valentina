@@ -10,11 +10,12 @@ const buttons = document.getElementById("letter-buttons");
 const finalText = document.getElementById("final-text");
 const letterWindow = document.querySelector(".letter-window");
 
+const noWrapper = document.querySelector(".no-wrapper");
+
 // Evita drag raro en iOS
 noBtn.draggable = false;
 yesBtn.draggable = false;
 
-// ===== Helpers =====
 function clamp(v, min, max) {
   return Math.max(min, Math.min(max, v));
 }
@@ -27,10 +28,19 @@ let noInitialized = false;
 function initNoAbsolutePosition() {
   if (noInitialized) return;
 
-  // Convertimos el NO a absolute dentro de la letter-window
+  // 1) Guardamos la posición actual ANTES de moverlo de lugar en el DOM
   const wRect = letterWindow.getBoundingClientRect();
   const bRect = noBtn.getBoundingClientRect();
 
+  // 2) Mover el NO a ser HIJO DIRECTO del marco (letter-window)
+  //    (así position:absolute se calcula dentro del marco)
+  if (noBtn.parentElement !== letterWindow) {
+    // Oculta el wrapper para que no “reserve espacio” raro
+    if (noWrapper) noWrapper.style.display = "none";
+    letterWindow.appendChild(noBtn);
+  }
+
+  // 3) Convertimos a absolute dentro del marco
   const startLeft = bRect.left - wRect.left;
   const startTop = bRect.top - wRect.top;
 
@@ -38,7 +48,8 @@ function initNoAbsolutePosition() {
   noBtn.style.position = "absolute";
   noBtn.style.left = `${startLeft}px`;
   noBtn.style.top = `${startTop}px`;
-  noBtn.style.zIndex = "10";
+  noBtn.style.zIndex = "999";
+  noBtn.style.display = "block";
 
   noInitialized = true;
 }
@@ -46,30 +57,27 @@ function initNoAbsolutePosition() {
 function moveNoInsideWindow() {
   if (!letterWindow) return;
 
-  // Asegura que ya esté en absolute antes de mover
   initNoAbsolutePosition();
 
   const padding = 12;
-
   const w = letterWindow.getBoundingClientRect();
 
-  // Tamaño real del botón
+  // Tamaño real del botón (ya dentro del marco)
   const btnW = noBtn.offsetWidth;
   const btnH = noBtn.offsetHeight;
 
-  // Área permitida (dentro del marco)
-  const maxLeft = Math.max(padding, w.width - padding - btnW);
+  // límites horizontales
+  const minLeft = padding;
+  const maxLeft = Math.max(minLeft, w.width - padding - btnW);
 
-  // Banda inferior (donde están los botones), para que se vea como tu imagen
+  // banda inferior (zona de botones)
   const bandHeight = Math.min(170, w.height * 0.35);
   const minTop = Math.max(padding, w.height - bandHeight);
   const maxTop = Math.max(minTop, w.height - padding - btnH);
 
-  // Random dentro de límites
-  const newLeft = clamp(rand(padding, maxLeft), padding, maxLeft);
+  const newLeft = clamp(rand(minLeft, maxLeft), minLeft, maxLeft);
   const newTop = clamp(rand(minTop, maxTop), minTop, maxTop);
 
-  // Movemos con left/top (NO translate), así nunca se recorta por overflow
   noBtn.style.transition = "left 0.18s ease, top 0.18s ease";
   noBtn.style.left = `${newLeft}px`;
   noBtn.style.top = `${newTop}px`;
@@ -83,23 +91,23 @@ envelope.addEventListener("click", () => {
   setTimeout(() => {
     letterWindow.classList.add("open");
 
-    // Espera a que el layout exista en pantalla y luego inicializa el NO
+    // cuando ya está visible, inicializa posición del NO
     requestAnimationFrame(() => {
       initNoAbsolutePosition();
     });
   }, 50);
 });
 
-// Desktop: hover
+// Desktop hover
 noBtn.addEventListener("pointerenter", moveNoInsideWindow);
 
-// Mobile: tap (lo movemos al tocar)
+// Mobile tap
 noBtn.addEventListener("pointerdown", (e) => {
   e.preventDefault();
   moveNoInsideWindow();
 });
 
-// iOS Safari extra (por si pointer no dispara bien)
+// iOS Safari extra
 noBtn.addEventListener(
   "touchstart",
   (e) => {
@@ -109,7 +117,7 @@ noBtn.addEventListener(
   { passive: false }
 );
 
-// Recalcula al rotar / resize
+// Recalcular si cambia tamaño / rotación
 window.addEventListener("resize", () => {
   noInitialized = false;
   if (letter.style.display === "flex") {
@@ -121,7 +129,12 @@ window.addEventListener("resize", () => {
 yesBtn.addEventListener("click", () => {
   title.textContent = "Yippeeee!";
   catImg.src = "cat_dance.gif";
+
   letterWindow.classList.add("final");
   buttons.style.display = "none";
+
+  // también ocultamos NO por si quedó flotando
+  noBtn.style.display = "none";
+
   finalText.style.display = "block";
 });
