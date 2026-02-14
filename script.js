@@ -10,63 +10,68 @@ const buttons = document.getElementById("letter-buttons");
 const finalText = document.getElementById("final-text");
 
 // Click Envelope
-
 envelope.addEventListener("click", () => {
-    envelope.style.display = "none";
-    letter.style.display = "flex";
+  envelope.style.display = "none";
+  letter.style.display = "flex";
 
-    setTimeout( () => {
-        document.querySelector(".letter-window").classList.add("open");
-    },50);
+  setTimeout(() => {
+    document.querySelector(".letter-window").classList.add("open");
+  }, 50);
 });
 
-// Logic to move the NO btn
+// Helpers
+function clamp(v, min, max) {
+  return Math.max(min, Math.min(max, v));
+}
 
-noBtn.addEventListener("mouseover", () => {
-    const min = 200;
-    const max = 200;
+// Move NO but NEVER leave the buttons box (perfect for mobile)
+function moveNoSafely() {
+  const container = buttons; // the safe box
+  const pad = 8; // padding inside the box so it never touches the edge
 
-    const distance = Math.random() * (max - min) + min;
-    const angle = Math.random() * Math.PI * 2;
+  const containerRect = container.getBoundingClientRect();
+  const btnRect = noBtn.getBoundingClientRect();
 
-    const moveX = Math.cos(angle) * distance;
-    const moveY = Math.sin(angle) * distance;
+  // How much we can move without leaving container
+  const minDx = (containerRect.left + pad) - btnRect.left;
+  const maxDx = (containerRect.right - pad) - btnRect.right;
 
-    noBtn.style.transition = "transform 0.3s ease";
-    noBtn.style.transform = `translate(${moveX}px, ${moveY}px)`;
+  const minDy = (containerRect.top + pad) - btnRect.top;
+  const maxDy = (containerRect.bottom - pad) - btnRect.bottom;
+
+  // Original “random jump” feel (like your code), but clamped
+  const distance = 200; // keep your vibe
+  const angle = Math.random() * Math.PI * 2;
+
+  let dx = Math.cos(angle) * distance;
+  let dy = Math.sin(angle) * distance;
+
+  dx = clamp(dx, minDx, maxDx);
+  dy = clamp(dy, minDy, maxDy);
+
+  noBtn.style.transition = "transform 0.22s ease";
+  noBtn.style.transform = `translate(${dx}px, ${dy}px)`;
+}
+
+/**
+ * Desktop: hover -> moves
+ * Mobile: touch/press -> moves
+ */
+noBtn.addEventListener("pointerenter", (e) => {
+  // pointerenter for mouse/pen; in touch it might not fire consistently
+  if (e.pointerType !== "touch") moveNoSafely();
 });
 
-// Logic to make YES btn to grow
-
-// let yesScale = 1;
-
-// yesBtn.style.position = "relative"
-// yesBtn.style.transformOrigin = "center center";
-// yesBtn.style.transition = "transform 0.3s ease";
-
-// noBtn.addEventListener("click", () => {
-//     yesScale += 2;
-
-//     if (yesBtn.style.position !== "fixed") {
-//         yesBtn.style.position = "fixed";
-//         yesBtn.style.top = "50%";
-//         yesBtn.style.left = "50%";
-//         yesBtn.style.transform = `translate(-50%, -50%) scale(${yesScale})`;
-//     }else{
-//         yesBtn.style.transform = `translate(-50%, -50%) scale(${yesScale})`;
-//     }
-// });
+noBtn.addEventListener("pointerdown", (e) => {
+  // When you try to tap NO in mobile, it escapes but stays inside frame
+  if (e.pointerType === "touch") moveNoSafely();
+});
 
 // YES is clicked
-
 yesBtn.addEventListener("click", () => {
-    title.textContent = "Yippeeee!";
-
-    catImg.src = "cat_dance.gif";
-
-    document.querySelector(".letter-window").classList.add("final");
-
-    buttons.style.display = "none";
-
-    finalText.style.display = "block";
+  title.textContent = "Yippeeee!";
+  catImg.src = "cat_dance.gif";
+  document.querySelector(".letter-window").classList.add("final");
+  buttons.style.display = "none";
+  finalText.style.display = "block";
 });

@@ -11,36 +11,31 @@ body {
 /* Envelope Screen */
 #envelope-container {
     text-align: center;
-    cursor:pointer;
+    cursor: pointer;
 }
 
 @keyframes pulse {
-    0% {
-        transform:scale(1);
-    }
-    50% {
-        transform: scale(1.1);
-    }
-    100% {
-        transform: scale(1);
-    }
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
 }
 
-#envelope{
+#envelope {
     width: 200px;
     animation: pulse 1.5s infinite;
     cursor: pointer;
 }
 
-#letter-container{
+#letter-container {
     display: none;
-    position:fixed;
+    position: fixed;
     inset: 0;
     justify-content: center;
     align-items: center;
 }
 
-.letter-window{
+/* ===== Letter Window ===== */
+.letter-window {
     width: 90vw;
     max-width: 800px;
     aspect-ratio: 3/2;
@@ -50,12 +45,15 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
+
     background-image: url("window.png");
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
+
     border-radius: 12px;
     gap: 1px;
+
     padding-top: 180px;
 
     transform: scale(1.2);
@@ -70,7 +68,7 @@ body {
 
 h1 {
     font-size: 30px;
-    margin:0;
+    margin: 0;
 }
 
 p {
@@ -78,7 +76,6 @@ p {
 }
 
 /* Cat */
-
 .cat {
     width: 250px;
     margin: 10px 0;
@@ -89,29 +86,40 @@ p {
     width: 180px;
 }
 
-/* buttons */
+/* ===== Buttons (FIX MOBILE PERFECT) ===== */
 .buttons {
+    /* centrado perfecto */
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 30px;
+
+    /* IMPORTANTE: caja “segura” en mobile */
+    width: min(360px, 86vw);
+    height: 110px;
+
     position: relative;
+    overflow: hidden;          /* <- NO se sale del marco */
+    touch-action: manipulation; /* mejor en mobile */
 }
 
-.no-wrapper{
-    position:relative;
+.no-wrapper {
+    position: relative;
 }
 
 .btn {
     width: 120px;
+    height: auto;
     cursor: pointer;
     user-select: none;
+    -webkit-user-drag: none;
 }
 
 .yes-btn,
 .no-btn {
-width: 120px;
-height: auto;
-display: inline-block;
+    width: 120px;
+    height: auto;
+    display: inline-block;
 }
 
 .yes-btn {
@@ -128,12 +136,42 @@ display: inline-block;
     cursor: default;
 }
 
-.final-text{
+.final-text {
     font-size: 22px;
     line-height: 1.4;
     text-align: center;
     display: inline-block;
     padding: 10px 20px;
-    background-color: rgba(255,240,240,0.5);
+    background-color: rgba(255, 240, 240, 0.5);
     border-radius: 12px;
+}
+
+/* ===== Extra: que se vea fino en pantallas pequeñas ===== */
+@media (max-width: 480px) {
+    .letter-window {
+        width: 94vw;
+        padding-top: clamp(130px, 28vw, 175px);
+        transform: scale(1.08);
+    }
+
+    h1 { font-size: 24px; }
+
+    .cat { width: 210px; }
+
+    .buttons {
+        width: min(320px, 86vw);
+        gap: 22px;
+        height: 100px;
+    }
+
+    .btn,
+    .yes-btn,
+    .no-btn {
+        width: 112px;
+    }
+
+    .final-text {
+        font-size: 18px;
+        padding: 10px 14px;
+    }
 }
