@@ -15,7 +15,7 @@ const finalText = document.getElementById("final-text");
 noBtn.draggable = false;
 yesBtn.draggable = false;
 
-// ===== Helpers =====
+// Helpers
 function clamp(v, min, max) {
   return Math.max(min, Math.min(max, v));
 }
@@ -25,73 +25,78 @@ function rand(min, max) {
 
 let noReady = false;
 
-function placeNoNextToYes() {
-  if (!letterWindow || !yesBtn || !noBtn) return;
-
-  // Mover NO como hijo directo del marco (para controlar bien los límites)
+function ensureNoIsChildOfWindow() {
+  // NO debe ser hijo directo de letter-window para posicionarlo bien
   if (noBtn.parentElement !== letterWindow) {
     letterWindow.appendChild(noBtn);
   }
+}
 
-  // Medidas
-  const w = letterWindow.getBoundingClientRect();
-  const y = yesBtn.getBoundingClientRect();
+// Coloca el NO visible SIEMPRE en vertical (sin depender del YES)
+function placeNoInitial() {
+  if (!letterWindow || !noBtn) return;
 
-  // Estilo absoluto dentro del marco
+  ensureNoIsChildOfWindow();
+
+  // Fuerza estilos base
+  noBtn.style.display = "block";
   noBtn.style.position = "absolute";
   noBtn.style.transform = "none";
-  noBtn.style.display = "block";
   noBtn.style.zIndex = "999";
+  noBtn.style.pointerEvents = "auto";
 
-  // Ponlo al lado del YES (misma línea)
-  const gap = 16;
+  const w = letterWindow.getBoundingClientRect();
+
+  // Si la imagen aún no cargó, reintenta un poquito después
   const btnW = noBtn.offsetWidth;
   const btnH = noBtn.offsetHeight;
+  if (btnW === 0 || btnH === 0) {
+    setTimeout(placeNoInitial, 80);
+    return;
+  }
 
-  // Left = a la derecha del YES
-  let left = (y.left - w.left) + y.width + gap;
-  // Top = mismo top que YES
-  let top = (y.top - w.top);
-
-  // Clamp para que jamás salga del marco
   const padding = 12;
-  const maxLeft = Math.max(padding, w.width - padding - btnW);
-  const maxTop = Math.max(padding, w.height - padding - btnH);
 
-  left = clamp(left, padding, maxLeft);
-  top  = clamp(top, padding, maxTop);
+  // Queremos que inicie en la banda inferior, a la derecha del centro
+  // (como si estuviera al lado del YES)
+  const bottom = 18; // coincide con tu CSS móvil (.buttons bottom: 18px)
+  const top = clamp(w.height - bottom - btnH, padding, w.height - padding - btnH);
+
+  const gap = 16;
+  const centerX = w.width / 2;
+  const left = clamp(centerX + gap, padding, w.width - padding - btnW);
 
   noBtn.style.left = `${left}px`;
-  noBtn.style.top  = `${top}px`;
+  noBtn.style.top = `${top}px`;
 
   noReady = true;
 }
 
 function moveNoInsideWindow() {
-  if (!letterWindow) return;
-  if (!noReady) placeNoNextToYes();
+  if (!letterWindow || !noBtn) return;
+
+  if (!noReady) placeNoInitial();
 
   const w = letterWindow.getBoundingClientRect();
-
   const padding = 12;
-  const btnW = noBtn.offsetWidth;
-  const btnH = noBtn.offsetHeight;
 
-  // límites horizontales dentro del marco
+  const btnW = noBtn.offsetWidth || 120;
+  const btnH = noBtn.offsetHeight || 60;
+
   const minLeft = padding;
   const maxLeft = Math.max(minLeft, w.width - padding - btnW);
 
-  // banda inferior (zona donde están los botones)
+  // Banda inferior para que se vea natural
   const bandHeight = Math.min(190, w.height * 0.38);
   const minTop = Math.max(padding, w.height - bandHeight);
   const maxTop = Math.max(minTop, w.height - padding - btnH);
 
   const newLeft = rand(minLeft, maxLeft);
-  const newTop  = rand(minTop, maxTop);
+  const newTop = rand(minTop, maxTop);
 
   noBtn.style.transition = "left 0.18s ease, top 0.18s ease";
   noBtn.style.left = `${newLeft}px`;
-  noBtn.style.top  = `${newTop}px`;
+  noBtn.style.top = `${newTop}px`;
 }
 
 // Click Envelope
@@ -102,10 +107,10 @@ envelope.addEventListener("click", () => {
   setTimeout(() => {
     letterWindow.classList.add("open");
 
-    // cuando ya está visible, colocamos NO al lado del YES
-    requestAnimationFrame(() => {
-      placeNoNextToYes();
-    });
+    // Espera a que el layout + imágenes se asienten
+    requestAnimationFrame(() => placeNoInitial());
+    setTimeout(placeNoInitial, 120);
+    setTimeout(placeNoInitial, 250);
   }, 50);
 });
 
@@ -119,16 +124,20 @@ noBtn.addEventListener("pointerdown", (e) => {
 });
 
 // iOS Safari extra
-noBtn.addEventListener("touchstart", (e) => {
-  e.preventDefault();
-  moveNoInsideWindow();
-}, { passive: false });
+noBtn.addEventListener(
+  "touchstart",
+  (e) => {
+    e.preventDefault();
+    moveNoInsideWindow();
+  },
+  { passive: false }
+);
 
-// Recalcula si cambia el tamaño / rotación
+// Recalcula si cambia tamaño / rotación
 window.addEventListener("resize", () => {
   noReady = false;
   if (letter.style.display === "flex") {
-    requestAnimationFrame(() => placeNoNextToYes());
+    requestAnimationFrame(() => placeNoInitial());
   }
 });
 

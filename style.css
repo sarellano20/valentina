@@ -198,5 +198,7 @@ p {
     }
 
     .no-btn { touch-action: manipulation; }
+    .no-btn { z-index: 999; }
+
 
 }
