@@ -9,64 +9,94 @@ const catImg = document.getElementById("letter-cat");
 const buttons = document.getElementById("letter-buttons");
 const finalText = document.getElementById("final-text");
 
+const letterWindow = document.querySelector(".letter-window");
+
+// Evita drag raro en iOS
+noBtn.draggable = false;
+yesBtn.draggable = false;
+
 // Click Envelope
-
 envelope.addEventListener("click", () => {
-    envelope.style.display = "none";
-    letter.style.display = "flex";
+  envelope.style.display = "none";
+  letter.style.display = "flex";
 
-    setTimeout( () => {
-        document.querySelector(".letter-window").classList.add("open");
-    },50);
+  setTimeout(() => {
+    letterWindow.classList.add("open");
+  }, 50);
 });
 
-// Logic to move the NO btn
+// ===== NO button: move but NEVER leave the window (mobile + desktop) =====
+let noBaseRect = null;
 
-noBtn.addEventListener("mouseover", () => {
-    const min = 200;
-    const max = 200;
+function rand(min, max) {
+  return Math.random() * (max - min) + min;
+}
 
-    const distance = Math.random() * (max - min) + min;
-    const angle = Math.random() * Math.PI * 2;
+function cacheNoBaseRect() {
+  const prev = noBtn.style.transform;
+  noBtn.style.transform = "translate(0px, 0px)";
+  noBaseRect = noBtn.getBoundingClientRect();
+  noBtn.style.transform = prev || "translate(0px, 0px)";
+}
 
-    const moveX = Math.cos(angle) * distance;
-    const moveY = Math.sin(angle) * distance;
+function moveNoInsideWindow() {
+  if (!letterWindow) return;
 
-    noBtn.style.transition = "transform 0.3s ease";
-    noBtn.style.transform = `translate(${moveX}px, ${moveY}px)`;
+  if (!noBaseRect) cacheNoBaseRect();
+
+  const w = letterWindow.getBoundingClientRect();
+  const btnW = noBaseRect.width;
+  const btnH = noBaseRect.height;
+
+  const margin = 12;
+
+  // Mantén el NO en una "banda" inferior
+  const bandHeight = Math.min(160, w.height * 0.35);
+  const topMin = Math.max(w.top + margin, w.bottom - bandHeight);
+  const topMax = Math.max(topMin, w.bottom - margin - btnH);
+
+  const leftMin = w.left + margin;
+  const leftMax = Math.max(leftMin, w.right - margin - btnW);
+
+  const targetLeft = rand(leftMin, leftMax);
+  const targetTop = rand(topMin, topMax);
+
+  const moveX = targetLeft - noBaseRect.left;
+  const moveY = targetTop - noBaseRect.top;
+
+  noBtn.style.transition = "transform 0.25s ease";
+  noBtn.style.transform = `translate(${moveX}px, ${moveY}px)`;
+}
+
+// Desktop hover
+noBtn.addEventListener("pointerenter", moveNoInsideWindow);
+
+// Mobile tap
+noBtn.addEventListener("pointerdown", (e) => {
+  e.preventDefault();
+  moveNoInsideWindow();
 });
 
-// Logic to make YES btn to grow
+// iOS Safari extra
+noBtn.addEventListener(
+  "touchstart",
+  (e) => {
+    e.preventDefault();
+    moveNoInsideWindow();
+  },
+  { passive: false }
+);
 
-// let yesScale = 1;
-
-// yesBtn.style.position = "relative"
-// yesBtn.style.transformOrigin = "center center";
-// yesBtn.style.transition = "transform 0.3s ease";
-
-// noBtn.addEventListener("click", () => {
-//     yesScale += 2;
-
-//     if (yesBtn.style.position !== "fixed") {
-//         yesBtn.style.position = "fixed";
-//         yesBtn.style.top = "50%";
-//         yesBtn.style.left = "50%";
-//         yesBtn.style.transform = `translate(-50%, -50%) scale(${yesScale})`;
-//     }else{
-//         yesBtn.style.transform = `translate(-50%, -50%) scale(${yesScale})`;
-//     }
-// });
+window.addEventListener("resize", () => {
+  noBaseRect = null;
+});
 
 // YES is clicked
-
 yesBtn.addEventListener("click", () => {
-    title.textContent = "Yippeeee!";
+  title.textContent = "Yippeeee!";
+  catImg.src = "cat_dance.gif";
 
-    catImg.src = "cat_dance.gif";
-
-    document.querySelector(".letter-window").classList.add("final");
-
-    buttons.style.display = "none";
-
-    finalText.style.display = "block";
+  letterWindow.classList.add("final");
+  buttons.style.display = "none";
+  finalText.style.display = "block";
 });
