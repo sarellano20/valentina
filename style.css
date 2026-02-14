@@ -212,3 +212,50 @@ p {
         width: min(40vw, 140px);
     }
 }
+
+/* ✅ FIX BOTONES EN MÓVIL (se ven debajo del gato como en la imagen) */
+.letter-window{
+  position: relative; /* necesario para posicionar botones dentro */
+}
+
+@media (max-width: 480px){
+
+  /* que la ventana crezca según contenido (no recorte botones) */
+  .letter-window{
+    aspect-ratio: auto;       /* 🔥 quita el 3/2 en móvil */
+    height: auto;
+    max-height: 92vh;
+
+    /* espacio suficiente arriba y ABAJO para que entren botones */
+    padding-top: 110px;
+    padding-bottom: 95px;
+
+    overflow: hidden;         /* mantiene todo dentro del marco */
+  }
+
+  /* gato más pequeño + deja espacio antes de los botones */
+  .cat{
+    width: min(58vw, 220px);
+    height: auto;
+    margin: 6px 0 0;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* botones anclados al fondo del marco */
+  .buttons{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 18px;             /* ajusta si quieres más arriba/abajo */
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    z-index: 5;
+  }
+
+  .btn{
+    width: min(40vw, 140px);
+    height: auto;
+  }
+}
