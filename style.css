@@ -200,5 +200,50 @@ p {
     .no-btn { touch-action: manipulation; }
     .no-btn { z-index: 999; }
 
+    /* ✅ MOBILE: arena fija para botones (YES y NO siempre visibles) */
+@media (max-width: 480px){
+  /* tu letter-window ya tiene position:relative; overflow:hidden; etc */
+
+  .buttons{
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 18px;
+
+    /* Arena para mover el NO */
+    height: 90px;              /* importante: da espacio real */
+    width: 100%;
+    z-index: 50;
+
+    display: block;            /* no flex */
+  }
+
+  /* Quitamos el wrapper de en medio */
+  .no-wrapper{
+    position: static;
+  }
+
+  /* Posicionamos ambos dentro de la arena */
+  .yes-btn, .no-btn{
+    position: absolute;
+    top: 0;
+  }
+
+  /* YES a la izquierda del centro */
+  .yes-btn{
+    left: 50%;
+    transform: translateX(-120%);  /* ajusta si lo quieres más cerca */
+  }
+
+  /* NO a la derecha del centro (posición inicial) */
+  .no-btn{
+    left: 50%;
+    transform: translateX(20%);    /* ajusta si lo quieres más cerca */
+    display: block !important;
+    z-index: 60;
+  }
+}
+
+
 
 }

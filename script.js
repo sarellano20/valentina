@@ -1,8 +1,8 @@
 // Elements
 const envelope = document.getElementById("envelope-container");
 const letter = document.getElementById("letter-container");
-
 const letterWindow = document.querySelector(".letter-window");
+
 const noBtn = document.querySelector(".no-btn");
 const yesBtn = document.querySelector(".btn[alt='Yes']");
 
@@ -11,95 +11,83 @@ const catImg = document.getElementById("letter-cat");
 const buttons = document.getElementById("letter-buttons");
 const finalText = document.getElementById("final-text");
 
-// Evita drag raro en iOS
+// iOS: evita drag de imágenes
 noBtn.draggable = false;
 yesBtn.draggable = false;
 
-// Helpers
-function clamp(v, min, max) {
-  return Math.max(min, Math.min(max, v));
-}
 function rand(min, max) {
   return Math.random() * (max - min) + min;
 }
-
-let noReady = false;
-
-function ensureNoIsChildOfWindow() {
-  // NO debe ser hijo directo de letter-window para posicionarlo bien
-  if (noBtn.parentElement !== letterWindow) {
-    letterWindow.appendChild(noBtn);
-  }
+function clamp(v, min, max) {
+  return Math.max(min, Math.min(max, v));
 }
 
-// Coloca el NO visible SIEMPRE en vertical (sin depender del YES)
-function placeNoInitial() {
-  if (!letterWindow || !noBtn) return;
+function isMobile() {
+  return window.matchMedia("(max-width: 480px)").matches;
+}
 
-  ensureNoIsChildOfWindow();
-
-  // Fuerza estilos base
-  noBtn.style.display = "block";
-  noBtn.style.position = "absolute";
-  noBtn.style.transform = "none";
-  noBtn.style.zIndex = "999";
-  noBtn.style.pointerEvents = "auto";
-
-  const w = letterWindow.getBoundingClientRect();
-
-  // Si la imagen aún no cargó, reintenta un poquito después
-  const btnW = noBtn.offsetWidth;
-  const btnH = noBtn.offsetHeight;
-  if (btnW === 0 || btnH === 0) {
-    setTimeout(placeNoInitial, 80);
+function ensureNoAbsoluteInArena() {
+  // En móvil: el NO se controla dentro de la arena (#letter-buttons)
+  if (!isMobile()) {
+    // Desktop: vuelve a normal (por si rotaste)
+    noBtn.style.position = "";
+    noBtn.style.left = "";
+    noBtn.style.top = "";
+    noBtn.style.transform = "";
     return;
   }
 
-  const padding = 12;
-
-  // Queremos que inicie en la banda inferior, a la derecha del centro
-  // (como si estuviera al lado del YES)
-  const bottom = 18; // coincide con tu CSS móvil (.buttons bottom: 18px)
-  const top = clamp(w.height - bottom - btnH, padding, w.height - padding - btnH);
-
-  const gap = 16;
-  const centerX = w.width / 2;
-  const left = clamp(centerX + gap, padding, w.width - padding - btnW);
-
-  noBtn.style.left = `${left}px`;
-  noBtn.style.top = `${top}px`;
-
-  noReady = true;
+  // En móvil: fuerza absolute dentro de la arena, sin translate (para mover con left/top)
+  noBtn.style.position = "absolute";
+  noBtn.style.transform = "translateX(20%)"; // posición inicial a la derecha del centro
+  noBtn.style.top = "0px";
+  noBtn.style.left = "50%";
+  noBtn.style.display = "block";
+  noBtn.style.zIndex = "60";
 }
 
-function moveNoInsideWindow() {
-  if (!letterWindow || !noBtn) return;
+function moveNoInsideArena() {
+  if (!isMobile()) {
+    // Desktop: tu comportamiento original (translate) si quieres
+    const distance = 200;
+    const angle = Math.random() * Math.PI * 2;
+    const moveX = Math.cos(angle) * distance;
+    const moveY = Math.sin(angle) * distance;
+    noBtn.style.transition = "transform 0.3s ease";
+    noBtn.style.transform = `translate(${moveX}px, ${moveY}px)`;
+    return;
+  }
 
-  if (!noReady) placeNoInitial();
+  // MOBILE: mover dentro de la arena con left/top (nunca se sale)
+  const arena = buttons; // #letter-buttons
+  if (!arena) return;
 
-  const w = letterWindow.getBoundingClientRect();
-  const padding = 12;
+  // IMPORTANT: quitar translate para mover con coordenadas reales
+  noBtn.style.transform = "none";
+
+  const pad = 8;
+  const arenaW = arena.clientWidth;
+  const arenaH = arena.clientHeight;
 
   const btnW = noBtn.offsetWidth || 120;
   const btnH = noBtn.offsetHeight || 60;
 
-  const minLeft = padding;
-  const maxLeft = Math.max(minLeft, w.width - padding - btnW);
+  // limites dentro de la arena
+  const minLeft = pad;
+  const maxLeft = Math.max(minLeft, arenaW - pad - btnW);
 
-  // Banda inferior para que se vea natural
-  const bandHeight = Math.min(190, w.height * 0.38);
-  const minTop = Math.max(padding, w.height - bandHeight);
-  const maxTop = Math.max(minTop, w.height - padding - btnH);
+  const minTop = 0;
+  const maxTop = Math.max(minTop, arenaH - btnH);
 
-  const newLeft = rand(minLeft, maxLeft);
-  const newTop = rand(minTop, maxTop);
+  const newLeft = clamp(rand(minLeft, maxLeft), minLeft, maxLeft);
+  const newTop = clamp(rand(minTop, maxTop), minTop, maxTop);
 
   noBtn.style.transition = "left 0.18s ease, top 0.18s ease";
   noBtn.style.left = `${newLeft}px`;
   noBtn.style.top = `${newTop}px`;
 }
 
-// Click Envelope
+// Open letter
 envelope.addEventListener("click", () => {
   envelope.style.display = "none";
   letter.style.display = "flex";
@@ -107,20 +95,23 @@ envelope.addEventListener("click", () => {
   setTimeout(() => {
     letterWindow.classList.add("open");
 
-    // Espera a que el layout + imágenes se asienten
-    requestAnimationFrame(() => placeNoInitial());
-    setTimeout(placeNoInitial, 120);
-    setTimeout(placeNoInitial, 250);
+    // Asegura que NO aparezca bien desde el inicio (vertical)
+    requestAnimationFrame(() => {
+      ensureNoAbsoluteInArena();
+    });
+
+    // Reintento extra por iOS (cuando termina de calcular layout)
+    setTimeout(() => ensureNoAbsoluteInArena(), 120);
   }, 50);
 });
 
 // Desktop hover
-noBtn.addEventListener("pointerenter", moveNoInsideWindow);
+noBtn.addEventListener("pointerenter", moveNoInsideArena);
 
 // Mobile tap
 noBtn.addEventListener("pointerdown", (e) => {
   e.preventDefault();
-  moveNoInsideWindow();
+  moveNoInsideArena();
 });
 
 // iOS Safari extra
@@ -128,29 +119,23 @@ noBtn.addEventListener(
   "touchstart",
   (e) => {
     e.preventDefault();
-    moveNoInsideWindow();
+    moveNoInsideArena();
   },
   { passive: false }
 );
 
-// Recalcula si cambia tamaño / rotación
+// Si rotas / cambia tamaño: reponer NO
 window.addEventListener("resize", () => {
-  noReady = false;
-  if (letter.style.display === "flex") {
-    requestAnimationFrame(() => placeNoInitial());
-  }
+  ensureNoAbsoluteInArena();
 });
 
-// YES is clicked
+// YES click
 yesBtn.addEventListener("click", () => {
   title.textContent = "Yippeeee!";
   catImg.src = "cat_dance.gif";
 
   letterWindow.classList.add("final");
   buttons.style.display = "none";
-
-  // Oculta NO por si quedó flotando
   noBtn.style.display = "none";
-
   finalText.style.display = "block";
 });
