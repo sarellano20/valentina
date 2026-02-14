@@ -4,26 +4,26 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-
     background-image: url("heart-bg.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-
     font-family: "Pixelify Sans", sans-serif;
-    overflow: hidden;
 }
 
 /* Envelope Screen */
 #envelope-container {
     text-align: center;
-    cursor: pointer;
+    cursor:pointer;
 }
 
 @keyframes pulse {
-    0% { transform:scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
+    0% {
+        transform:scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
 }
 
 #envelope{
@@ -32,48 +32,35 @@ body {
     cursor: pointer;
 }
 
-/* Letter Screen */
 #letter-container{
     display: none;
-    position: fixed;
+    position:fixed;
     inset: 0;
     justify-content: center;
     align-items: center;
-    padding: 16px;
-    box-sizing: border-box;
 }
 
-/* Window */
 .letter-window{
-    position: relative;
-
     width: 90vw;
     max-width: 800px;
     aspect-ratio: 3/2;
-
     padding: 20px 20px 0 20px;
-    padding-top: 180px;
-
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    justify-content: flex-start;
     text-align: center;
-
     background-image: url("window.png");
-    background-size: 100% 100%;
+    background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-
     border-radius: 12px;
-    gap: 8px;
+    gap: 1px;
+    padding-top: 180px;
 
     transform: scale(1.2);
     opacity: 0;
     transition: transform 0.6s ease, opacity 0.6s ease;
-
-    overflow: hidden;
-    box-sizing: border-box;
 }
 
 .letter-window.open {
@@ -83,62 +70,60 @@ body {
 
 h1 {
     font-size: 30px;
-    margin: 0;
-    line-height: 1.15;
+    margin:0;
 }
 
 p {
     font-size: 40px;
-    margin: 0;
 }
 
 /* Cat */
+
 .cat {
     width: 250px;
-    max-width: 100%;
-    height: auto;
-    object-fit: contain;
-    margin: 6px 0 4px;
+    margin: 10px 0;
     transition: width 0.4s ease;
-    z-index: 2;
 }
 
 .letter-window.final .cat {
     width: 180px;
 }
 
-/* Buttons */
+/* buttons */
 .buttons {
     display: flex;
     justify-content: center;
-    align-items: center;
     gap: 30px;
     position: relative;
-    margin-top: 6px;
-    z-index: 5;
 }
 
 .no-wrapper{
-    position: relative;
+    position:relative;
 }
 
 .btn {
     width: 120px;
-    height: auto;
     cursor: pointer;
     user-select: none;
 }
 
+.yes-btn,
+.no-btn {
+width: 120px;
+height: auto;
+display: inline-block;
+}
+
 .yes-btn {
     position: relative;
-    z-index: 6;
+    z-index: 2;
     transform-origin: center center;
     transition: transform 0.3s ease;
 }
 
 .no-btn {
+    z-index: 1;
     position: relative;
-    z-index: 6;
     transition: transform 0.15s ease;
     cursor: default;
 }
@@ -151,99 +136,4 @@ p {
     padding: 10px 20px;
     background-color: rgba(255,240,240,0.5);
     border-radius: 12px;
-    margin-top: 10px;
-}
-
-/* ✅ MOBILE: que no se corte y botones visibles debajo */
-@media (max-width: 480px){
-
-    .letter-window{
-        aspect-ratio: auto;
-        height: auto;
-        max-height: 92vh;
-
-        padding-top: 110px;
-        padding-bottom: 95px;
-    }
-
-    h1{
-        font-size: 22px;
-    }
-
-    p{
-        font-size: 22px;
-    }
-
-    .cat{
-        width: min(58vw, 220px);
-        margin: 6px 0 0;
-    }
-
-    .letter-window.final .cat{
-        width: min(48vw, 180px);
-    }
-
-    .buttons{
-        position: absolute;
-        left: 0;
-        right: 0;
-        bottom: 18px;
-        gap: 14px;
-        flex-wrap: wrap;
-        margin-top: 0;
-    }
-
-    .btn{
-        width: min(40vw, 140px);
-    }
-
-    .no-btn { touch-action: manipulation; }
-    .no-btn { z-index: 999; }
-
-    /* ✅ MOBILE: arena fija para botones (YES y NO siempre visibles) */
-@media (max-width: 480px){
-  /* tu letter-window ya tiene position:relative; overflow:hidden; etc */
-
-  .buttons{
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 18px;
-
-    /* Arena para mover el NO */
-    height: 90px;              /* importante: da espacio real */
-    width: 100%;
-    z-index: 50;
-
-    display: block;            /* no flex */
-  }
-
-  /* Quitamos el wrapper de en medio */
-  .no-wrapper{
-    position: static;
-  }
-
-  /* Posicionamos ambos dentro de la arena */
-  .yes-btn, .no-btn{
-    position: absolute;
-    top: 0;
-  }
-
-  /* YES a la izquierda del centro */
-  .yes-btn{
-    left: 50%;
-    transform: translateX(-120%);  /* ajusta si lo quieres más cerca */
-  }
-
-  /* NO a la derecha del centro (posición inicial) */
-  .no-btn{
-    left: 50%;
-    transform: translateX(20%);    /* ajusta si lo quieres más cerca */
-    display: block !important;
-    z-index: 60;
-  }
-}
-
-
-
 }
