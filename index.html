@@ -1,46 +1,564 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="stylesheet" href="style.css" />
-    <title>Valentine Letter</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Felicitaciones por tu Graduación 💖</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg1: #0f172a;
+      --bg2: #1e1b4b;
+      --bg3: #3b0764;
+      --pink: #ff7eb6;
+      --rose: #ff4d8d;
+      --soft: #ffd6e8;
+      --gold: #ffd166;
+      --lavender: #c4b5fd;
+      --white: #ffffff;
+      --glass: rgba(255, 255, 255, 0.10);
+      --border: rgba(255, 255, 255, 0.18);
+      --shadow: 0 10px 35px rgba(0,0,0,0.35);
+    }
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Aldrich&family=Pixelify+Sans:wght@400..700&display=swap"
-      rel="stylesheet"
-    />
-  </head>
-  <body>
-    <!-- Envelope Screen -->
-    <div id="envelope-container">
-      <img src="envelope.png" alt="Envelope" id="envelope" />
-      <p>♡ Letter for You ♡</p>
-    </div>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-    <!-- Letter Screen -->
-    <div id="letter-container">
-      <div class="letter-window">
-        <h1 id="letter-title">Will you be my Valentine?</h1>
+    html, body {
+      width: 100%;
+      min-height: 100%;
+      font-family: "Poppins", sans-serif;
+      color: var(--white);
+      overflow-x: hidden;
+      background:
+        radial-gradient(circle at top left, rgba(255,126,182,0.18), transparent 25%),
+        radial-gradient(circle at top right, rgba(255,209,102,0.18), transparent 25%),
+        radial-gradient(circle at bottom center, rgba(196,181,253,0.12), transparent 28%),
+        linear-gradient(135deg, var(--bg1), var(--bg2), var(--bg3));
+    }
 
-        <img src="cat_heart.gif" class="cat" id="letter-cat" alt="Cat" />
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.03) 45%, transparent 100%);
+      animation: shimmer 8s linear infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
 
-        <div class="buttons" id="letter-buttons">
-          <img src="yes.png" class="btn yes-btn" alt="Yes" />
+    @keyframes shimmer {
+      from { transform: translateX(-30%); }
+      to { transform: translateX(30%); }
+    }
 
-          <div class="no-wrapper">
-            <img src="no.png" class="btn no-btn" alt="No" />
+    .petals {
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .petal {
+      position: absolute;
+      top: -10%;
+      font-size: 18px;
+      opacity: 0.8;
+      animation: fall linear infinite;
+      filter: drop-shadow(0 0 10px rgba(255, 105, 180, 0.35));
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-10vh) translateX(0) rotate(0deg);
+        opacity: 0;
+      }
+      10% { opacity: 0.9; }
+      100% {
+        transform: translateY(115vh) translateX(80px) rotate(360deg);
+        opacity: 0.2;
+      }
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px 18px;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 900px;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      padding: 36px 28px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      animation: floatCard 4s ease-in-out infinite;
+    }
+
+    .card::before,
+    .card::after {
+      content: "";
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      border-radius: 50%;
+      filter: blur(70px);
+      z-index: 0;
+      opacity: 0.28;
+    }
+
+    .card::before {
+      background: var(--pink);
+      top: -70px;
+      left: -70px;
+    }
+
+    .card::after {
+      background: var(--lavender);
+      bottom: -90px;
+      right: -60px;
+    }
+
+    @keyframes floatCard {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .top-icons {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .icon-badge {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.14);
+      box-shadow: 0 0 18px rgba(255,255,255,0.08);
+      font-size: 1.1rem;
+      animation: pulseGlow 2.3s infinite ease-in-out;
+    }
+
+    .icon-badge:nth-child(2) { animation-delay: 0.3s; }
+    .icon-badge:nth-child(3) { animation-delay: 0.6s; }
+    .icon-badge:nth-child(4) { animation-delay: 0.9s; }
+
+    @keyframes pulseGlow {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 10px rgba(255,255,255,0.08);
+      }
+      50% {
+        transform: scale(1.08);
+        box-shadow: 0 0 25px rgba(255,126,182,0.25);
+      }
+    }
+
+    .subtitle {
+      color: var(--soft);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      margin-bottom: 14px;
+    }
+
+    .title {
+      font-family: "Great Vibes", cursive;
+      font-size: clamp(2.7rem, 7vw, 5.4rem);
+      line-height: 1.05;
+      color: #fff7fb;
+      text-shadow: 0 0 25px rgba(255,126,182,0.25);
+      margin-bottom: 14px;
+    }
+
+    .graduate-name {
+      font-size: clamp(1.05rem, 2.4vw, 1.35rem);
+      color: var(--gold);
+      font-weight: 600;
+      margin-bottom: 18px;
+    }
+
+    .message {
+      max-width: 720px;
+      margin: 0 auto;
+      font-size: 1.02rem;
+      line-height: 1.9;
+      color: #f9eefa;
+      opacity: 0.96;
+    }
+
+    .quote-box {
+      max-width: 740px;
+      margin: 28px auto 0;
+      padding: 20px 18px;
+      border-radius: 20px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.14);
+      box-shadow: inset 0 0 20px rgba(255,255,255,0.04);
+    }
+
+    .quote {
+      font-size: 1.05rem;
+      line-height: 1.9;
+      color: #fff5fb;
+      font-style: italic;
+    }
+
+    .btn-wrap {
+      margin-top: 32px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .magic-btn {
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 16px 28px;
+      border-radius: 999px;
+      color: white;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      font-size: 1rem;
+      background: linear-gradient(135deg, #ff4d8d, #ff7eb6, #c084fc);
+      box-shadow: 0 10px 30px rgba(255, 77, 141, 0.35);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .magic-btn::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -120%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(100deg, transparent, rgba(255,255,255,0.35), transparent);
+      transition: left 0.7s ease;
+    }
+
+    .magic-btn:hover {
+      transform: translateY(-3px) scale(1.03);
+      box-shadow: 0 16px 40px rgba(255, 77, 141, 0.45);
+      filter: brightness(1.05);
+    }
+
+    .magic-btn:hover::before {
+      left: 120%;
+    }
+
+    .invitation {
+      margin-top: 28px;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.8s ease;
+    }
+
+    .invitation.show {
+      max-height: 600px;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .invite-card {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 24px 20px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.06));
+      border: 1px solid rgba(255,255,255,0.18);
+      box-shadow: 0 15px 45px rgba(0,0,0,0.25);
+    }
+
+    .invite-title {
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 700;
+      color: #fff7d6;
+      margin-bottom: 10px;
+    }
+
+    .invite-text {
+      color: #fff3fb;
+      font-size: 1rem;
+      line-height: 1.9;
+      margin-bottom: 18px;
+    }
+
+    .details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .detail {
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.14);
+      color: #fff;
+      text-align: left;
+    }
+
+    .detail strong {
+      display: block;
+      color: var(--gold);
+      margin-bottom: 6px;
+      font-size: 0.95rem;
+    }
+
+    .final-line {
+      margin-top: 18px;
+      font-size: 1rem;
+      color: #ffe4ef;
+      line-height: 1.8;
+    }
+
+    .heart {
+      display: inline-block;
+      animation: heartBeat 1.2s infinite;
+    }
+
+    @keyframes heartBeat {
+      0%, 100% { transform: scale(1); }
+      20% { transform: scale(1.2); }
+      40% { transform: scale(1); }
+      60% { transform: scale(1.16); }
+      80% { transform: scale(1); }
+    }
+
+    .sparkles {
+      margin-top: 18px;
+      font-size: 1.3rem;
+      letter-spacing: 8px;
+      animation: sparkleBlink 1.7s infinite ease-in-out;
+    }
+
+    @keyframes sparkleBlink {
+      0%, 100% { opacity: 0.55; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.08); }
+    }
+
+    .footer-note {
+      margin-top: 28px;
+      color: rgba(255,255,255,0.78);
+      font-size: 0.92rem;
+    }
+
+    .flare {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      background: radial-gradient(circle, rgba(255,255,255,0.85) 0%, rgba(255,126,182,0.3) 35%, transparent 70%);
+      width: 12px;
+      height: 12px;
+      animation: riseFade 1.8s ease-out forwards;
+      z-index: 5;
+    }
+
+    @keyframes riseFade {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-90px) scale(2.2);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .card {
+        padding: 28px 18px;
+        border-radius: 22px;
+      }
+
+      .message,
+      .quote,
+      .invite-text,
+      .final-line {
+        font-size: 0.96rem;
+      }
+
+      .magic-btn {
+        width: 100%;
+        max-width: 320px;
+      }
+
+      .top-icons {
+        gap: 10px;
+      }
+
+      .icon-badge {
+        font-size: 1rem;
+        padding: 9px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="petals" id="petals"></div>
+
+  <main class="container">
+    <section class="card" id="mainCard">
+      <div class="content">
+        <div class="top-icons">
+          <span class="icon-badge">⚔️</span>
+          <span class="icon-badge">🌸</span>
+          <span class="icon-badge">🔥</span>
+          <span class="icon-badge">💖</span>
+        </div>
+
+        <p class="subtitle">Un detalle hecho con mucho amor</p>
+
+        <h1 class="title">Felicitaciones por tu graduación</h1>
+        <p class="graduate-name">Para una chica increíble, valiente y hermosa ✨</p>
+
+        <p class="message">
+          Hoy no solo celebras un logro, celebras todo el esfuerzo, las noches largas,
+          la constancia, la inteligencia y el corazón tan lindo que te trajo hasta aquí.
+          Estoy muy orgulloso/a de ti, porque graduarte no es solo terminar una etapa,
+          es demostrar que cuando sueñas con el alma, también puedes conquistar con fuerza.
+        </p>
+
+        <div class="quote-box">
+          <p class="quote">
+            “Así como una guerrera sigue avanzando incluso después de las batallas más difíciles,
+            tú también llegaste hasta aquí brillando con tu propia luz. Que esta graduación sea solo
+            el inicio de una vida llena de éxitos, sonrisas, amor y momentos inolvidables.”
+          </p>
+        </div>
+
+        <div class="btn-wrap">
+          <button class="magic-btn" id="revealBtn">Abrir mi sorpresa para ti 💌</button>
+        </div>
+
+        <div class="invitation" id="invitation">
+          <div class="invite-card">
+            <h2 class="invite-title">Tengo una invitación especial para hoy 🍣🌙</h2>
+            <p class="invite-text">
+              Para celebrar este día tan bonito como te lo mereces, quiero invitarte
+              <strong>hoy de 8:00 PM a 9:00 PM</strong> a comer sushi en
+              <strong>Miyako</strong>, en una noche linda, especial y llena de cariño.
+            </p>
+
+            <div class="details">
+              <div class="detail">
+                <strong>📍 Lugar</strong>
+                Miyako
+              </div>
+              <div class="detail">
+                <strong>🕗 Hora</strong>
+                Hoy, de 8:00 PM a 9:00 PM
+              </div>
+              <div class="detail">
+                <strong>👥 Invitados</strong>
+                Dianella, tu hermano y la invitada Esther Arellano
+              </div>
+            </div>
+
+            <p class="final-line">
+              Me haría muy feliz compartir este momento contigo y seguir celebrando
+              tu logro con una noche bonita, rica y especial <span class="heart">💖</span>
+            </p>
+
+            <div class="sparkles">✨ 🌸 ✨ ⚔️ ✨</div>
           </div>
         </div>
 
-        <p id="final-text" class="final-text" style="display: none">
-          <strong>Valentine Date:</strong> Vicky, you and me, playing carnival tomorrow :3
+        <p class="footer-note">
+          Hecho con mucho cariño, admiración y un toque de magia inspirado en tu anime favorito 💕
         </p>
       </div>
-    </div>
+    </section>
+  </main>
 
-    <script src="script.js"></script>
-  </body>
+  <script>
+    const revealBtn = document.getElementById("revealBtn");
+    const invitation = document.getElementById("invitation");
+    const mainCard = document.getElementById("mainCard");
+    const petalsContainer = document.getElementById("petals");
+
+    revealBtn.addEventListener("click", () => {
+      invitation.classList.add("show");
+      revealBtn.textContent = "Tu sorpresa ya está abierta 💖";
+      revealBtn.disabled = true;
+      revealBtn.style.opacity = "0.9";
+      revealBtn.style.cursor = "default";
+      burstFlare();
+    });
+
+    function burstFlare() {
+      for (let i = 0; i < 24; i++) {
+        const flare = document.createElement("span");
+        flare.className = "flare";
+        const rect = mainCard.getBoundingClientRect();
+
+        flare.style.left = Math.random() * rect.width + "px";
+        flare.style.top = Math.random() * rect.height + "px";
+        flare.style.animationDelay = (Math.random() * 0.4) + "s";
+        flare.style.width = flare.style.height = (8 + Math.random() * 12) + "px";
+
+        mainCard.appendChild(flare);
+
+        setTimeout(() => flare.remove(), 1800);
+      }
+    }
+
+    function createPetal() {
+      const petal = document.createElement("span");
+      petal.className = "petal";
+
+      const icons = ["🌸", "✨", "💮", "💕"];
+      petal.textContent = icons[Math.floor(Math.random() * icons.length)];
+
+      petal.style.left = Math.random() * 100 + "vw";
+      petal.style.animationDuration = (6 + Math.random() * 7) + "s";
+      petal.style.fontSize = (14 + Math.random() * 14) + "px";
+      petal.style.opacity = (0.45 + Math.random() * 0.5).toFixed(2);
+
+      petalsContainer.appendChild(petal);
+
+      setTimeout(() => {
+        petal.remove();
+      }, 14000);
+    }
+
+    setInterval(createPetal, 350);
+
+    for (let i = 0; i < 18; i++) {
+      setTimeout(createPetal, i * 180);
+    }
+  </script>
+</body>
 </html>
